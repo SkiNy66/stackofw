@@ -9,12 +9,7 @@ default: &default
 development:
   <<: *default
   database: stackofw_development
-  username: postgres
-  password: 'ae8600'
-
 
 test:
   <<: *default
   database: stackofw_test
-  username: postgres
-  password: 'ae8600'
