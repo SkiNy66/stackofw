@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :questions do
     resources :answers, only: [:new, :create]
   end
   #resources :answers, only: [:new, :create]
-  root 'questions#index'
+  root to: "questions#index"
 
 
   # The priority is based upon order of creation: first created -> highest priority.
