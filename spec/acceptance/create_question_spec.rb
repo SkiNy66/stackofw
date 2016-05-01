@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'Create question', %q{
   In order to get answer from community
   As an authnticated user
-  I want ti be able to ask question
+  I want to be able to ask question
 } do
 
   given(:user) { create(:user) }
@@ -23,7 +23,7 @@ feature 'Create question', %q{
     expect(page).to have_content 'Your question successfully created.'
   end
 
-  scenario 'Non-authenticated user ties to create question' do
+  scenario 'Non-authenticated user tries to create question' do
     visit questions_path
     click_on 'Ask question'
    # save_and_open_page
