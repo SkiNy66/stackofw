@@ -6,6 +6,24 @@ feature 'Show answers', %q{
   I want to be able to see answers
 } do
   
-  scenario 'Autenticated user see answers'
-  scenario 'Non-autenticated user see answers'
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+  given(:answer) { create(:answer, question: question) }
+ 
+  scenario 'Autenticated user see answers' do
+    sign_in(user)
+    answer
+
+    visit question_path(question)
+
+    expect(page).to have_content answer.body
+  end
+
+  scenario 'Non-autenticated user see answers' do
+    answer
+
+    visit question_path(question)
+
+    expect(page).to have_content answer.body
+  end
 end
