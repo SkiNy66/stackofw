@@ -7,6 +7,7 @@ feature 'Delete question', %q{
 } do
   
   given(:user) { create(:user) }
+  given(:second_user) { create(:user) }
   given(:question) { create(:question, user: user) }
 
   scenario 'Autenticated user delete his question' do
@@ -18,10 +19,11 @@ feature 'Delete question', %q{
   end
 
   scenario 'Autenticated user tries to delete not his question' do
+    sign_in(second_user)
     visit question_path(question)
     click_on 'Delete question'
 
-    expect(page).to have_content 'You need to sign in'
+    expect(page).to have_content 'Question could not deleted.'
   end
 
   scenario 'Non-autenticated user tries to delete any question' do

@@ -10,3 +10,4 @@ p = link_to 'Add answer', new_question_answer_path(@question.id)
 h1 All answers for this questions
 - @question.answers.each do |answer|
   p = answer.body
+  = link_to 'show this answer', answer_path(answer)

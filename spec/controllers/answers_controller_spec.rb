@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:question) { FactoryGirl.create(:question, user: user) }
-  let(:answer) { FactoryGirl.create(:answer, user: user) }
+  let(:answer) { FactoryGirl.create(:answer, question: question, user: user) }
   
   describe 'GET #new' do
     before do
@@ -55,7 +55,32 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    it 'Delete answer'
-    it 're-direct to index view'
+    context 'Autorized user' do
+      it 'Delete answer' do
+        sign_in(user)
+        answer
+        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+      end
+
+      it 're-direct to index view' do
+        sign_in(user)
+        delete :destroy, id: answer, question_id: question
+
+        expect(response).to redirect_to question
+      end
+    end
+
+    context 'Non-autorized user' do
+    it 'tries to delete answer' do
+        answer
+        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(0)
+      end
+
+      it 're-direct to index view' do
+        delete :destroy, id: answer, question_id: question
+
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
   end
 end
