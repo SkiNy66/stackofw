@@ -1,5 +1,8 @@
+= link_to 'Sign in ', new_user_session_path
+= link_to 'Sign up ', new_user_registration_path
+= link_to 'Sign out ', destroy_user_session_path, method: :delete
 p = link_to 'All questions', questions_path
-= form_for [ @question, @answer ] do |f|
+= form_for [ @question, Answer.new ] do |f|
   = f.label :body
   = f.text_area :body
   = f.submit 'Create answer'

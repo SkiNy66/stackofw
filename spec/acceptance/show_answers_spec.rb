@@ -8,7 +8,7 @@ feature 'Show answers', %q{
   
   given(:user) { create(:user) }
   given(:question) { create(:question) }
-  given(:answer) { create(:answer, question: question) }
+  given(:answer) { create(:answer, question: question, user: user) }
  
   scenario 'Autenticated user see answers' do
     sign_in(user)

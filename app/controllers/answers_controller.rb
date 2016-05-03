@@ -1,17 +1,14 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:new, :create]
   before_action :authenticate_user!, except: [:index, :show]
-
-  def show
-  end
+  before_action :load_question, only: [:new, :create]
 
   def new
     @answer = @question.answers.new
   end
 
   def create
-    answer = @question.answers.build(answer_params.merge(question_id: @question_id))
-    #answer = @question.answers.new 
+    answer = @question.answers.new(answer_params) #.merge(question_id: @question_id))
+    answer.user = current_user 
     if answer.save
       flash[:notice] = 'Your answer successfully created.'
       redirect_to answer.question
@@ -21,6 +18,12 @@ class AnswersController < ApplicationController
       render :new
     end
   end
+
+  # def destroy
+  #   @answer = Answer.find(params[:answer_id])
+  #   @answer.destroy
+  #   redirect_to question_path
+  # end
 
   private
 

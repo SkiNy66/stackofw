@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { FactoryGirl.create(:question) }
   let(:user) { FactoryGirl.create(:user) }
+  let(:question) { FactoryGirl.create(:question, user: user) }
+  let(:answer) { FactoryGirl.create(:answer, user: user) }
   
   describe 'GET #new' do
     before do
@@ -33,6 +34,11 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirect to show question with answers' do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer)
         expect(response).to redirect_to question_path(question)
+      end       
+
+      it 'save answer for question with user_id' do 
+        post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer)
+        expect(answer.user_id).to eq(user.id)
       end
     end
 
@@ -46,5 +52,10 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :new
       end
     end
+  end
+
+  describe 'DELETE #destroy' do
+    it 'Delete answer'
+    it 're-direct to index view'
   end
 end
