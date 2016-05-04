@@ -17,21 +17,20 @@ feature 'Delete Answer', %q{
     click_on 'Delete answer'
 
     expect(page).to have_content 'Answer deleted successfully.'
+    expect(page).to_not have_content answer.body
   end
 
   scenario 'Autenticated user tries to delete not his answer' do
     sign_in(second_user)
     visit answer_path(answer)
-    click_on 'Delete answer'
 
-    expect(page).to have_content 'Answer could not deleted.'
+    expect(page).to_not have_link 'Delete answer'
   end
   
   scenario 'Non-autenticated user tries to delete answer' do
     visit answer_path(answer)
-    click_on 'Delete answer'
-
-    expect(page).to have_content 'You need to sign in'
+    
+    expect(page).to_not have_link 'Delete answer'
   end
 
 end

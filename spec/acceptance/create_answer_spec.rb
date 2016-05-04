@@ -17,6 +17,7 @@ feature 'Create answer', %q{
     click_on 'Create answer'
 
     expect(page).to have_content 'Your answer successfully created.'
+    expect(page).to have_content 'This is the answer'
   end
 
   scenario 'Non-autenticated user tries to create answer' do
