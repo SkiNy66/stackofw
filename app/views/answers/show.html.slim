@@ -4,5 +4,5 @@
 p = link_to 'All questions', questions_path
 h1 This answer
 p = @answer.body
-- if @answer.user == current_user
+- if user_signed_in? && @answer.user_id == current_user.id
   = link_to 'Delete answer', answer_path(@answer), method: :delete

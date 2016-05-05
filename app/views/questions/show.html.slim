@@ -4,7 +4,7 @@
 p = link_to 'All questions', questions_path
 h1 = @question.title
 p = @question.body
-- if current_user == @question.user
+- if user_signed_in? && @question.user_id == current_user.id
   = link_to 'Delete question', question_path(@question), method: :delete
 p = link_to 'Edit', edit_question_path(@question)
 p = link_to 'Add answer', new_question_answer_path(@question.id)
