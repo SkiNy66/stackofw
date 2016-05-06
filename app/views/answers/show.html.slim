@@ -2,9 +2,7 @@
 = link_to 'Sign up ', new_user_registration_path
 = link_to 'Sign out ', destroy_user_session_path, method: :delete
 p = link_to 'All questions', questions_path
-= form_for @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Create'
+h1 This answer
+p = @answer.body
+- if user_signed_in? && @answer.user_id == current_user.id
+  = link_to 'Delete answer', answer_path(@answer), method: :delete
