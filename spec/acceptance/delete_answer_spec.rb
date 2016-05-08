@@ -8,12 +8,12 @@ feature 'Delete Answer', %q{
 
   given(:user) { create(:user) }
   given(:second_user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given(:answer) { create(:answer, question: question, user: user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: user) }
 
-  scenario 'Autenticated user delete his answer' do
+  scenario 'Autenticated user delete his answer', js: true do
     sign_in(user)
-    visit answer_path(answer)
+    visit question_path(question)
     click_on 'Delete answer'
 
     expect(page).to have_content 'Answer deleted successfully.'
@@ -22,13 +22,13 @@ feature 'Delete Answer', %q{
 
   scenario 'Autenticated user tries to delete not his answer' do
     sign_in(second_user)
-    visit answer_path(answer)
+    visit question_path(question)
 
     expect(page).to_not have_link 'Delete answer'
   end
   
   scenario 'Non-autenticated user tries to delete answer' do
-    visit answer_path(answer)
+    visit question_path(question)
     
     expect(page).to_not have_link 'Delete answer'
   end

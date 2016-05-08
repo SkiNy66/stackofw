@@ -1,0 +1,5 @@
+h1 All answers for this questions
+- @question.answers.each do |answer|
+  p = answer.body
+  - if user_signed_in? && answer.user_id == current_user.id
+    = link_to 'Delete answer', answer_path(answer), method: :delete
