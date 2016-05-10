@@ -27,4 +27,13 @@ feature 'Create answer', %q{
     expect(page).to_not have_link 'Create answer'
     expect(page).to_not have_field 'Body'
   end
+
+  scenario 'User try to create invalid answer', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    click_on 'Create answer'
+
+    expect(page).to have_content "Body can't be blank"    
+  end
 end
