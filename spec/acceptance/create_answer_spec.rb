@@ -12,7 +12,7 @@ feature 'Create answer', %q{
   scenario 'Autenticated user creates answer', js: true do
     sign_in(user)
     visit question_path(question)
-    fill_in 'Body', with: 'This is the answer'
+    fill_in 'body-for-new-answer', with: 'This is the answer'
     click_on 'Create answer'
 
     expect(current_path).to eq question_path(question)

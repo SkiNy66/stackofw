@@ -9,10 +9,12 @@ p = @question.body
   = link_to 'Delete question', question_path(@question), method: :delete
   p = link_to 'Edit', edit_question_path(@question)
 
+h1 All answers for this questions
 .answers
   = render 'answers'
 - if user_signed_in?
-  = form_for [ @question, Answer.new ], remote: true do |f|
-    = f.label :body
-    = f.text_area :body
+  = form_for [ @question, @answer ], remote: true do |f|
+    = f.label :body, "You can answer"
+    .answer-errors
+    = f.text_area :body, id: 'body-for-new-answer'
     = f.submit 'Create answer'

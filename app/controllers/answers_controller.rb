@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:new, :create]
-  before_action :load_answer, only: [:show, :destroy]
+  before_action :load_answer, only: [:edit, :show, :update, :destroy]
 
   # def new
   #   @answer = @question.answers.new
@@ -9,6 +9,9 @@ class AnswersController < ApplicationController
 
   def show
   end 
+
+  def edit
+  end
   
   def create
     @answer = @question.answers.new(answer_params) #.merge(question_id: @question_id))
@@ -22,6 +25,11 @@ class AnswersController < ApplicationController
     # else
     #   render :new
     # end
+  end
+
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
