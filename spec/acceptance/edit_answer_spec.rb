@@ -41,7 +41,7 @@ feature 'Answer editing', %q{
       end
     end
 
-    # scenario 'User not sees link to Edit answer for not hos answer' do
+    # scenario 'User not sees link to Edit answer for not his answer' do
     #   sign_in(another_user)
     #   visit question_path(question)
     # end
