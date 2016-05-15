@@ -90,14 +90,14 @@ RSpec.describe AnswersController, type: :controller do
       it 'Delete answer' do
         sign_in(user)
         answer
-        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 're-direct to index view' do
+      it 'render destroy template' do
         sign_in(user)
-        delete :destroy, id: answer, question_id: question
+        delete :destroy, id: answer, question_id: question, format: :js
 
-        expect(response).to redirect_to question
+        expect(response).to render_template :destroy
       end
     end
 
