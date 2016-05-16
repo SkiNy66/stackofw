@@ -5,10 +5,9 @@ feature 'Answer editing', %q{
   As an author of Answer
   I'd like to be able to edit my answer
 } do
-  
   given(:user) { create(:user) }
-  #given(:another_user) { create(:user) }
-  given!(:question) {create(:question) }
+  # given(:another_user) { create(:user) }
+  given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, user: user) }
 
   scenario 'Un-autenticated user try to edit answer' do

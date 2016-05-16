@@ -12,6 +12,4 @@ class Answer < ActiveRecord::Base
       update!(best: true)
     end
   end
-
 end
-

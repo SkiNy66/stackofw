@@ -69,9 +69,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to question_path(assigns(:question))
       end
 
-       it 'save question with user_id' do
+      it 'save question with user_id' do
         post :create, question: FactoryGirl.attributes_for(:question)
-        expect(question.user_id).to eq(user.id) 
+        expect(question.user_id).to eq(user.id)
       end
     end
 
@@ -150,6 +150,5 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to new_user_session_path
       end
     end
-
   end
 end

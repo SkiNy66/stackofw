@@ -5,7 +5,6 @@ feature 'Delete Answer', %q{
   As an autenticated user
   I want to be able to delete my answer
 } do
-
   given(:user) { create(:user) }
   given(:second_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
@@ -26,11 +25,10 @@ feature 'Delete Answer', %q{
 
     expect(page).to_not have_link 'Delete answer'
   end
-  
+
   scenario 'Non-autenticated user tries to delete answer' do
     visit question_path(question)
-    
+
     expect(page).to_not have_link 'Delete answer'
   end
-
 end

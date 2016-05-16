@@ -5,9 +5,8 @@ feature 'Create answer', %q{
   As an autenticated user
   I want to be able to give answer
 } do
-  
   given(:user) { create(:user) }
-  given(:question) {create(:question) }
+  given(:question) { create(:question) }
 
   scenario 'Autenticated user creates answer', js: true do
     sign_in(user)
@@ -34,6 +33,6 @@ feature 'Create answer', %q{
 
     click_on 'Create answer'
 
-    expect(page).to have_content "Body can't be blank"    
+    expect(page).to have_content "Body can't be blank"
   end
 end

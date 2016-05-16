@@ -4,7 +4,13 @@ AllCops:
     - config/**/*
     - script/**/*
 Metrics/LineLength:
-  Max: 101
+  Max: 160
+
+Style/UnneededPercentQ:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
 
 Documentation:
   Enabled: false

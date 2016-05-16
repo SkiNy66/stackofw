@@ -5,7 +5,6 @@ feature 'Question editing', %q{
   As an author of question
   I want to be able to edit me question
 } do
-
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
   given(:question) { create(:question, user: user) }
@@ -42,5 +41,4 @@ feature 'Question editing', %q{
       end
     end
   end
-
-end 
+end

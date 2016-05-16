@@ -5,7 +5,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user2) { FactoryGirl.create(:user) }
   let(:question) { FactoryGirl.create(:question, user: user) }
   let(:answer) { FactoryGirl.create(:answer, question: question, user: user) }
-  
+
   # describe 'GET #new' do
   #   before do
   #     sign_in(user)
@@ -26,7 +26,7 @@ RSpec.describe AnswersController, type: :controller do
     before do
       sign_in(user)
     end
-      
+
     context 'with valid attributes' do
       it 'save answer for question' do
         expect { post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
@@ -34,10 +34,10 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to show question with answers' do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
-        expect(response).to render_template :create #redirect_to question_path(question)
-      end       
+        expect(response).to render_template :create # redirect_to question_path(question)
+      end
 
-      it 'save answer for question with user_id' do 
+      it 'save answer for question with user_id' do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
         expect(answer.user_id).to eq(user.id)
       end
@@ -55,7 +55,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirect to show question with answers' do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
         expect(response).to render_template :create # redirect_to question_path(question)
-      end       
+      end
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe AnswersController, type: :controller do
     before do
       sign_in(user)
     end
-    
+
     it 'assings the requested answer to @answer' do
       patch :update, id: answer, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
       expect(assigns(:answer)).to eq answer
@@ -103,7 +103,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'Non-autorized user' do
-    it 'tries to delete answer' do
+      it 'tries to delete answer' do
         answer
         expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(0)
       end
@@ -118,38 +118,29 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #set_best' do
     context 'Author of question' do
-      before do
-        sign_in(user)
-      end
-      
+      before { sign_in(user) }
+      before { patch :mark_best, id: answer, format: :js }
+
       it 'changes answer best attributes' do
-        patch :mark_best, id: answer, format: :js
         answer.reload
 
         expect(answer.best).to eq true
       end
 
       it 'render set_best template' do
-        patch :mark_best, id: answer, format: :js
-
         expect(response).to render_template :mark_best
       end
     end
 
     context 'Non-author of question' do
-      it 'tries to change best answer' do
-        sign_in(user2)
-        patch :mark_best, id: answer, format: :js
-    
+      before { sign_in(user2) }
+      before { patch :mark_best, id: answer, format: :js }
 
+      it 'tries to change best answer' do
         expect(answer.best).to eq false
       end
 
       it 're-render question path' do
-        sign_in(user2)
-        patch :mark_best, id: answer, format: :js
-        
-
         expect(response).to redirect_to question_path
       end
     end

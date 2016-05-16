@@ -8,17 +8,17 @@ class AnswersController < ApplicationController
   # end
 
   def show
-  end 
+  end
 
   def edit
   end
-  
+
   def create
-    @answer = @question.answers.new(answer_params) #.merge(question_id: @question_id))
-    @answer.user = current_user 
+    @answer = @question.answers.new(answer_params) # .merge(question_id: @question_id))
+    @answer.user = current_user
     @answer.save
-    # if 
-   # flash[:notice] = 'Your answer successfully created.'
+    # if
+    # flash[:notice] = 'Your answer successfully created.'
     #  # redirect_to answer.question
     #  # redirect_to [@answer.question, @answer]
     #  # redirect_to question_answer_path(@answer.question, @answer)
@@ -37,10 +37,8 @@ class AnswersController < ApplicationController
     if @answer.user == current_user
       @answer.destroy
       # flash[:notice] = 'Answer deleted successfully.'
-      # redirect_to @question
     else
-      # flash[:notice] = 'Answer could not deleted.'
-      # redirect_to @question
+      redirect_to @question
     end
   end
 
@@ -50,7 +48,7 @@ class AnswersController < ApplicationController
       @answer.set_best!
     else
       redirect_to @answer.question
-    end    
+    end
   end
 
   private
