@@ -23,8 +23,11 @@ feature 'Set Best Answer', %{
     end
 
     describe 'Author' do
-      before { sign_in(user) }
-      before { visit question_path(question) }
+      before do
+        sign_in(user) 
+        visit question_path(question)
+      end
+
       scenario 'tries to set best answer', js: true do
         within("#answer-#{answer1.id}") do
           click_on 'Mark as best answer'
@@ -48,6 +51,18 @@ feature 'Set Best Answer', %{
 
         within "#answer-#{answer1.id}" do
           expect(page).to_not have_content 'BEST ANSWER'
+        end
+      end
+
+      scenario 'Best answer showing first', js: true do
+        within "#answer-#{answer2.id}" do
+          click_on 'Mark as best answer'
+
+          expect(page).to have_content 'BEST ANSWER'
+        end
+
+        within '.answers' do
+          expect(page.first('div')[:id]).to eq "answer-#{answer2.id}"
         end
       end
     end

@@ -1,6 +1,9 @@
 FactoryGirl.define do
+  sequence :body do |n|
+    "Answer_for_question#{n}"
+  end
   factory :answer do
-    body 'Answer_for_question'
+    body 
     question
     best 'false'
   end
