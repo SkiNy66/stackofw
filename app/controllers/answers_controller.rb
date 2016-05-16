@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:new, :create]
-  before_action :load_answer, only: [:edit, :show, :update, :destroy]
+  before_action :load_answer, only: [:edit, :show, :update, :destroy, :mark_best]
 
   # def new
   #   @answer = @question.answers.new
@@ -42,6 +42,15 @@ class AnswersController < ApplicationController
       # flash[:notice] = 'Answer could not deleted.'
       # redirect_to @question
     end
+  end
+
+  def mark_best
+    @question = @answer.question
+    if @question.user == current_user
+      @answer.set_best!
+    else
+      redirect_to @answer.question
+    end    
   end
 
   private
