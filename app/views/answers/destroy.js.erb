@@ -3,6 +3,9 @@
     $('.answer-errors').html('<%= j message %>');
   <% end %>
 <% else %>
-  $('.answers').append('<%= j render "answer", answer: @answer %>');
-  $('#body-for-new-answer').val('');
+  <% if @answer.destroyed? %>
+    $('<%= "#answer-#{ @answer.id }" %>').remove();
+  <% else %>
+    console.log('Answer could not deleted.')
+  <% end %>
 <% end %>

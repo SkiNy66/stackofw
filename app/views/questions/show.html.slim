@@ -2,17 +2,29 @@
 = link_to 'Sign up ', new_user_registration_path
 = link_to 'Sign out ', destroy_user_session_path, method: :delete
 p = link_to 'All questions', questions_path
-h1 = @question.title
-p = @question.body
 
-- if user_signed_in? && @question.user_id == current_user.id
-  = link_to 'Delete question', question_path(@question), method: :delete
-  p = link_to 'Edit', edit_question_path(@question)
+.question
+  = render 'question'
+  / h1 = @question.title
+  / p = @question.body
 
+  / - if user_signed_in? && @question.user_id == current_user.id
+  /   = link_to 'Delete question', question_path(@question), method: :delete
+  /   p = link_to 'Edit'
+  /   p = form_for @question, remote: true do |f|
+  /     = f.label :title, "Question title"
+  /     = f.text_area :title
+  /     = f.label :body, "Question body"
+  /     = f.text_area :body
+  /     = f.submit 'Update question'
+
+h1 All answers for this questions
 .answers
   = render 'answers'
+
 - if user_signed_in?
-  = form_for [ @question, Answer.new ], remote: true do |f|
-    = f.label :body
-    = f.text_area :body
+  = form_for [ @question, @answer ], remote: true do |f|
+    = f.label :body, "You can answer"
+    .answer-errors
+    = f.text_area :body, id: 'body-for-new-answer'
     = f.submit 'Create answer'

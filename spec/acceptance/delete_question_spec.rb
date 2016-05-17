@@ -5,7 +5,6 @@ feature 'Delete question', %q{
   As an autenticated user
   I want to be able to delete my question
 } do
-  
   given(:user) { create(:user) }
   given(:second_user) { create(:user) }
   given(:question) { create(:question, user: user) }
@@ -32,5 +31,4 @@ feature 'Delete question', %q{
 
     expect(page).to_not have_link 'Delete question'
   end
-
 end

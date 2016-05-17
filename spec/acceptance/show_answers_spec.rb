@@ -5,11 +5,10 @@ feature 'Show answers', %q{
   As autenticated or non-autenticated user
   I want to be able to see answers
 } do
-  
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:answer) { create(:answer, question: question, user: user) }
- 
+
   scenario 'Autenticated user see answers' do
     sign_in(user)
     answer

@@ -5,7 +5,6 @@ feature 'Show questions', %q{
   As an autenticated or non-autenticated user
   I want to be able to see questions
 } do
-
   given(:user) { create(:user) }
 
   scenario 'Autenticated user see questions' do
@@ -21,5 +20,4 @@ feature 'Show questions', %q{
 
     expect(page).to have_content('All questions here')
   end
-
 end

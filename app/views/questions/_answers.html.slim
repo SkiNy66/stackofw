@@ -1,5 +1,16 @@
-h1 All answers for this questions
 - @question.answers.each do |answer|
-  p = answer.body
-  - if user_signed_in? && answer.user_id == current_user.id
-    = link_to 'Delete answer', answer_path(answer), method: :delete
+  div id="answer-#{ answer.id }"
+    - if answer.persisted?
+      p = answer.body
+      - if answer.best
+        h1 'BEST ANSWER'
+      - if user_signed_in? && @question.user_id == current_user.id
+        = link_to 'Mark as best answer', mark_best_answer_path(answer), method: :patch, remote: true
+      - if user_signed_in? && answer.user_id == current_user.id
+        p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+        p = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        p = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+          = f.label :body, "Answer"
+          = f.text_area :body
+          = f.submit 'Save'
+      

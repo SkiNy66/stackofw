@@ -5,7 +5,6 @@ feature 'Create new user', %q{
   An an guest
   I want to be able to register
 } do
-  
   scenario 'Guest crate new user' do
     visit root_path
     click_on 'Sign up'
