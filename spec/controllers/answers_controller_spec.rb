@@ -134,7 +134,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'Non-author of question' do
       before { sign_in(user2) }
-      before { patch :mark_best, id: answer, format: :js }
+      before { patch :mark_best, id: answer.id, format: :js }
 
       it 'tries to change best answer' do
         expect(answer.best).to eq false
