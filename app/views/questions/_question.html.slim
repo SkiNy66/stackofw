@@ -14,7 +14,8 @@ div id="question-#{ @question.id }"
   p Attachments:
   ul
     - @question.attachments.each do |a|
-      li= link_to a.file.identifier, a.file.url
+      div id="attach-#{a.id}"
+        li= link_to a.file.identifier, a.file.url
 
   - if user_signed_in? && @question.user_id == current_user.id
     = link_to 'Delete question', question_path(@question), method: :delete
@@ -24,4 +25,9 @@ div id="question-#{ @question.id }"
       = f.text_area :title
       = f.label :body, "Question body"
       = f.text_area :body
+        ul
+      - @question.attachments.each do |a|
+        div id="attach-#{a.id}"
+          li= link_to a.file.identifier, a.file.url
+          = link_to_remove_association "remove file", f
       = f.submit 'Update question'

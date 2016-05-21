@@ -2,6 +2,7 @@
 = link_to 'Sign up ', new_user_registration_path
 = link_to 'Sign out ', destroy_user_session_path, method: :delete
 p = link_to 'All questions', questions_path
+
 = form_for @question do |f|
   p 
     = f.label :title
@@ -11,8 +12,11 @@ p = link_to 'All questions', questions_path
     = f.text_area :body
   p Attachments:
   p
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
+    = f.fields_for :attachments do |attachment|
+      = render 'attachments/attachment_fields', f: attachment
+    .links
+      = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'
+      / = a.label :file
+      / = a.file_field :file
 
   = f.submit 'Create'

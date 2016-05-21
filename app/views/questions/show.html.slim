@@ -5,18 +5,6 @@ p = link_to 'All questions', questions_path
 
 .question
   = render 'question'
-  / h1 = @question.title
-  / p = @question.body
-
-  / - if user_signed_in? && @question.user_id == current_user.id
-  /   = link_to 'Delete question', question_path(@question), method: :delete
-  /   p = link_to 'Edit'
-  /   p = form_for @question, remote: true do |f|
-  /     = f.label :title, "Question title"
-  /     = f.text_area :title
-  /     = f.label :body, "Question body"
-  /     = f.text_area :body
-  /     = f.submit 'Update question'
 
 h1 All answers for this questions
 .answers
@@ -28,7 +16,8 @@ h1 All answers for this questions
     .answer-errors
     = f.text_area :body, id: 'body-for-new-answer'
     p
-      = f.fields_for :attachments do |a|
-        = a.label :file
-        = a.file_field :file
+      = f.fields_for :attachments do |attachment|
+        = render 'attachments/attachment_fields', f: attachment
+      .links
+        = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'
     = f.submit 'Create answer'
