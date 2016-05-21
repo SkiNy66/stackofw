@@ -27,4 +27,8 @@ h1 All answers for this questions
     = f.label :body, "You can answer"
     .answer-errors
     = f.text_area :body, id: 'body-for-new-answer'
+    p
+      = f.fields_for :attachments do |a|
+        = a.label :file
+        = a.file_field :file
     = f.submit 'Create answer'
