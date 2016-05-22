@@ -4,7 +4,7 @@ RSpec.describe Answer, type: :model do
   context 'Matchers' do
     it { is_expected.to belong_to :question }
     it { is_expected.to belong_to :user }
-    it { is_expected.to have_many :attachments }
+    it { is_expected.to have_many(:attachments).dependent(:destroy) }
   end
 
   context 'Validations' do

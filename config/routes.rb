@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :questions do
-    resources :answers, shallow: true do#only: [:new, :create, :destroy]
+    resources :answers, shallow: true do #only: [:new, :create, :destroy]
       member do
         patch 'mark_best'
       end
@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
 
   root to: "questions#index"
-
+  resources :attachments, only: :destroy
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
