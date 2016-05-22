@@ -34,7 +34,7 @@ RSpec.describe AttachmentsController, type: :controller do
 
     context 'Non-autorized user' do
       it 'tries to delete answer' do
-        expect { delete :destroy, id: attachment, format: :js  }.to change(Attachment, :count).by(0)
+        expect { delete :destroy, id: attachment, format: :js }.to change(Attachment, :count).by(0)
       end
     end
   end

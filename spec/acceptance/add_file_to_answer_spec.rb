@@ -5,7 +5,6 @@ feature 'Add files to answer', %q{
   As an answer's author
   I'd like to be able to attach files
 } do
-
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
@@ -18,7 +17,7 @@ feature 'Add files to answer', %q{
     fill_in 'body-for-new-answer', with: 'This is the answer'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Create answer'
-    
+
     within '.answers' do
       expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
     end
@@ -32,9 +31,9 @@ feature 'Add files to answer', %q{
     fields = all('input[type="file"]')
     fields[0].set("#{Rails.root}/spec/spec_helper.rb")
     fields[1].set("#{Rails.root}/spec/rails_helper.rb")
-    
+
     click_on 'Create answer'
-    
+
     within '.answers' do
       expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
       expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'

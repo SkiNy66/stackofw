@@ -24,7 +24,7 @@ feature 'Set Best Answer', %{
 
     describe 'Author' do
       before do
-        sign_in(user) 
+        sign_in(user)
         visit question_path(question)
       end
 

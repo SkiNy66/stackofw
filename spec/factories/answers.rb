@@ -3,7 +3,7 @@ FactoryGirl.define do
     "Answer_for_question#{n}"
   end
   factory :answer do
-    body 
+    body
     question
     best false
   end

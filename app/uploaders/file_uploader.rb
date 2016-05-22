@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class FileUploader < CarrierWave::Uploader::Base
-
   delegate :identifier, to: :file
 
   # Include RMagick or MiniMagick support:
@@ -49,5 +48,4 @@ class FileUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-
 end

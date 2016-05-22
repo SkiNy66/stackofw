@@ -20,10 +20,5 @@
         p = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
           = f.label :body, "Answer"
           = f.text_area :body
-          / - answer.attachments.each do |a|
-          /   ul
-          /     div id="attach-#{a.id}"
-          /     li = link_to a.file.identifier, a.file.url
-          /     = link_to_remove_association "remove file", f
           = f.submit 'Save'
       

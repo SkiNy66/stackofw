@@ -5,7 +5,6 @@ feature 'Add files to question', %q{
   As an question's author
   I'd like to be able to attach files
 } do
-
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
   given(:question) { create(:question, user: user) }
@@ -35,7 +34,7 @@ feature 'Add files to question', %q{
 
         fill_in 'Title', with: 'Title of Test question'
         fill_in 'Body', with: 'Body of Test question'
-        
+
         # within all('.nasted-fields').first do
         #   attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
         # end
@@ -45,11 +44,11 @@ feature 'Add files to question', %q{
         # within all('.nasted-fields').last do
         #   attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
         # end
-        
+
         fields = all('input[type="file"]')
         fields[0].set("#{Rails.root}/spec/spec_helper.rb")
         fields[1].set("#{Rails.root}/spec/rails_helper.rb")
-        
+
         click_on 'Create'
 
         expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
