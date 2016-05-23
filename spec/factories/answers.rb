@@ -3,9 +3,9 @@ FactoryGirl.define do
     "Answer_for_question#{n}"
   end
   factory :answer do
-    body 
+    body
     question
-    best 'false'
+    best false
   end
 
   factory :invalid_answer, class: 'Answer' do

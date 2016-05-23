@@ -24,7 +24,7 @@ feature 'Set Best Answer', %{
 
     describe 'Author' do
       before do
-        sign_in(user) 
+        sign_in(user)
         visit question_path(question)
       end
 
@@ -58,7 +58,7 @@ feature 'Set Best Answer', %{
         within "#answer-#{answer2.id}" do
           click_on 'Mark as best answer'
 
-          expect(page).to have_content 'BEST ANSWER'
+          expect(page).to have_content 'BEST ANSWER' #### ajax delay
         end
 
         within '.answers' do
