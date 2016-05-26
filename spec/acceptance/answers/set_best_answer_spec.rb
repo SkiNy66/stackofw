@@ -1,6 +1,6 @@
 require_relative 'acceptance_helper'
 
-feature 'Set Best Answer', %{
+feature 'Set Best Answer', %q{
   In ordet to set best answer for my question
   As an author of question
   I want to be able to set the best answer
