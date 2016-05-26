@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require 'acceptance_helper'
 
 feature 'Sign out', %q{
   In order to exit

@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require 'acceptance_helper'
 
 feature 'Set likes', %q{
   In order to mark question or answer as likable

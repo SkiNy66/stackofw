@@ -4,6 +4,7 @@ RSpec.describe Question, type: :model do
   context 'Matchers' do
     it { is_expected.to have_many(:answers).dependent(:destroy) }
     it { is_expected.to have_many(:attachments).dependent(:destroy) }
+    it { is_expected.to have_many(:likes).dependent(:destroy) }
     it { is_expected.to belong_to :user }
   end
 
