@@ -15,7 +15,7 @@ feature 'Set likes', %q{
     scenario 'Tries to set like to question' do
       visit question_path(question)
 
-      expect(page).to_not have_link 'Like' 
+      expect(page).to_not have_link 'Like'
       expect(page).to_not have_link 'Dislike'
     end
 
@@ -23,7 +23,7 @@ feature 'Set likes', %q{
       visit question_path(question)
 
       within '.answers' do
-        expect(page).to_not have_link 'Like' 
+        expect(page).to_not have_link 'Like'
         expect(page).to_not have_link 'Dislike'
       end
     end
@@ -35,34 +35,38 @@ feature 'Set likes', %q{
         sign_in(another_user)
         visit question_path(question)
 
-        click_on 'Like'
+        within '.question' do
+          click_on 'Like'
 
-        expect(page).to have_content '+1'
+          expect(page).to have_content '1'
+        end
       end
 
-      scenario 'Dislike' do
+      scenario 'Dislike', js: true do
         sign_in(another_user)
         visit question_path(question)
 
-        click_on 'Dislike'
+        within '.question' do
+          click_on 'Dislike'
 
-        expect(page).to have_content '-1'
+          expect(page).to have_content '-1'
+        end
       end
     end
 
     describe 'Set like to answer' do
-      scenario 'Like' do
+      scenario 'Like', js: true do
         sign_in(another_user)
         visit question_path(question)
-        
+
         within '.answers' do
           click_on 'Like'
 
-          expect(page).to have_content '+1'
+          expect(page).to have_content '1'
         end
       end
 
-      scenario 'Dislike' do
+      scenario 'Dislike', js: true do
         sign_in(another_user)
         visit question_path(question)
 
@@ -75,41 +79,45 @@ feature 'Set likes', %q{
     end
 
     describe 'Tries to set second like to 1 question' do
-      scenario 'Like' do
+      scenario 'Like', js: true do
         sign_in(another_user)
         visit question_path(question)
 
-        click_on 'Like'
-        click_on 'Like'
+        within '.question' do
+          click_on 'Like'
+          click_on 'Like'
 
-        expect(page).to have_content '+1'
+          expect(page).to have_content '1'
+        end
       end
 
-      scenario 'Dislike' do
+      scenario 'Dislike', js: true do
         sign_in(another_user)
         visit question_path(question)
 
-        click_on 'Dislike'
-        click_on 'Dislike'
+        within '.question' do
+          click_on 'Dislike'
+          click_on 'Dislike'
 
-        expect(page).to have_content '-1'
+          expect(page).to have_content '-1'
+        end
       end
     end
 
     describe 'Tries to set second like to 1 answer' do
-      scenario 'Like' do
+      scenario 'Like', js: true do
         sign_in(another_user)
         visit question_path(question)
-        
+
         within '.answers' do
           click_on 'Like'
           click_on 'Like'
 
-          expect(page).to have_content '+1'
+          expect(page).to have_content '1'
         end
       end
 
-      scenario 'Dislike' do
+      scenario 'Dislike', js: true do
         sign_in(another_user)
         visit question_path(question)
 
@@ -124,21 +132,23 @@ feature 'Set likes', %q{
   end
 
   describe 'As an author' do
-    scenario 'Tries to set like to his question' do
+    scenario 'Tries to set like to his question', js: true do
       sign_in(user)
       visit question_path(question)
 
-      expect(page).to_not have_link 'Like' 
-      expect(page).to_not have_link 'Dislike'
-      expect(page).to have_content '0'
+      within '.question' do
+        expect(page).to_not have_link 'Like'
+        expect(page).to_not have_link 'Dislike'
+        expect(page).to have_content '0'
+      end
     end
 
-    scenario 'Tries to set like to his answer' do
+    scenario 'Tries to set like to his answer', js: true do
       sign_in(user)
       visit question_path(question)
 
       within '.answers' do
-        expect(page).to_not have_link 'Like' 
+        expect(page).to_not have_link 'Like'
         expect(page).to_not have_link 'Dislike'
         expect(page).to have_content '0'
       end

@@ -1,8 +1,9 @@
 class Answer < ActiveRecord::Base
+  include Likable
+
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachmentable, dependent: :destroy
-  has_many :likes, as: :likable, dependent: :destroy
 
   validates :body, :question_id, :user_id, presence: true
 

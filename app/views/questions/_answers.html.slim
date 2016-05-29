@@ -2,6 +2,7 @@
   div id="answer-#{ answer.id }"
     - if answer.persisted?
       p = answer.body
+      = render partial: 'likes/like', locals: { likable: answer}
       p Attachments:
       ul
         - answer.attachments.each do |a|

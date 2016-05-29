@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :questions do
+    member do
+      post :like_like
+      post :like_dislike
+      post :like_cancel
+    end   
     resources :answers, shallow: true do #only: [:new, :create, :destroy]
       member do
         patch 'mark_best'
+        post :like_like
+        post :like_dislike
+        post :like_cancel
       end
     end
   end
