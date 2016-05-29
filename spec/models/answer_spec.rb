@@ -22,7 +22,6 @@ RSpec.describe Answer, type: :model do
   describe 'set_best! method' do
     let!(:answer2) { create(:answer, question: question, user: user, best: true) }
 
-
     it 'should mark best answer' do
       answer1.set_best!
 

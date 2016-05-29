@@ -5,7 +5,6 @@ feature 'Set likes', %q{
   As an autenticated user
   I wat to be able to set like
 } do
-
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
   given!(:question) { create(:question, user: user) }

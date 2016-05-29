@@ -1,7 +1,6 @@
 module Liked
   extend ActiveSupport::Concern
   included do
-
     before_action :gets_likable, only: [:like_like, :like_dislike, :like_cancel]
     before_action :check_owner, only: [:like_like, :like_dislike, :like_cancel]
 
@@ -24,9 +23,7 @@ module Liked
 
     def check_owner
       if user_signed_in?
-        if @likable.user_id == current_user.id
-          render nothing: true, status: 403
-        end
+        render nothing: true, status: 403 if @likable.user_id == current_user.id
       end
     end
 
