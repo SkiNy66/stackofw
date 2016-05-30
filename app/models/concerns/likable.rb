@@ -3,12 +3,13 @@ module Likable
   included do
     has_many :likes, as: :likable, dependent: :destroy
 
-    def like_like(user)
-      likes.find_or_create_by(user: user).update!(type_vote: 'Like')
+    def like!(user)
+      # likes.find_or_create_by(user: user).update!(type_vote: 'Like')
+      likes.find_or_initialize_by(user: user).update!(type_vote: 1)
     end
 
-    def like_dislike(user)
-      likes.find_or_create_by(user: user).update!(type_vote: 'Dislike')
+    def dislike!(user)
+      likes.find_or_initialize_by(user: user).update!(type_vote: -1)
     end
 
     def like_cancel(user)
@@ -16,7 +17,7 @@ module Likable
     end
 
     def like_rating
-      likes.where(type_vote: 'Like').count - likes.where(type_vote: 'Dislike').count
+      likes.sum(:type_vote)
     end
   end
 end

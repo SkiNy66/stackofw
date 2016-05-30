@@ -1,16 +1,16 @@
 module Liked
   extend ActiveSupport::Concern
   included do
-    before_action :gets_likable, only: [:like_like, :like_dislike, :like_cancel]
-    before_action :check_owner, only: [:like_like, :like_dislike, :like_cancel]
+    before_action :gets_likable, only: [:like_up, :like_down, :like_cancel]
+    before_action :check_owner, only: [:like_up, :like_down, :like_cancel]
 
-    def like_like
-      @likable.like_like(current_user)
+    def like_up
+      @likable.like!(current_user)
       render json: { rating: @likable.like_rating, likable_id: @likable.id }
     end
 
-    def like_dislike
-      @likable.like_dislike(current_user)
+    def like_down
+      @likable.dislike!(current_user)
       render json: { rating: @likable.like_rating, likable_id: @likable.id }
     end
 

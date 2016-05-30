@@ -39,45 +39,45 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe 'like_like method' do
+  describe 'like! method' do
     context 'new vote' do
-      it 'should create new vote and set type_like to Like' do
-        expect { answer1.like_like(user) }.to change(answer1.likes, :count).by(1)
-        expect(answer1.likes.first.type_vote).to eq 'Like'
+      it 'should create new vote and set type_like to 1' do
+        expect { answer1.like!(user) }.to change(answer1.likes, :count).by(1)
+        expect(answer1.likes.first.type_vote).to eq 1
       end
     end
 
     context 'already exist vote' do
-      it 'should set type_like to Like' do
-        answer1.like_dislike(user)
+      it 'should set type_like to 1' do
+        answer1.dislike!(user)
 
-        expect { answer1.like_like(user) }.to_not change(answer1.likes, :count)
-        expect(answer1.likes.first.type_vote).to eq 'Like'
+        expect { answer1.like!(user) }.to_not change(answer1.likes, :count)
+        expect(answer1.likes.first.type_vote).to eq 1
       end
     end
   end
 
-  describe 'like_dislike method' do
+  describe 'dislike! method' do
     context 'new vote' do
-      it 'should create new vote and set type_like to Dislike' do
-        expect { answer1.like_dislike(user) }.to change(answer1.likes, :count).by(1)
-        expect(answer1.likes.first.type_vote).to eq 'Dislike'
+      it 'should create new vote and set type_like to -1' do
+        expect { answer1.dislike!(user) }.to change(answer1.likes, :count).by(1)
+        expect(answer1.likes.first.type_vote).to eq -1
       end
     end
 
     context 'already exist vote' do
-      it 'should set type_like to Dislike' do
-        answer1.like_like(user)
+      it 'should set type_like to -1' do
+        answer1.like!(user)
 
-        expect { answer1.like_dislike(user) }.to_not change(answer1.likes, :count)
-        expect(answer1.likes.first.type_vote).to eq 'Dislike'
+        expect { answer1.dislike!(user) }.to_not change(answer1.likes, :count)
+        expect(answer1.likes.first.type_vote).to eq -1
       end
     end
   end
 
   describe 'like_cancel method' do
     it 'should delete exist vote' do
-      answer1.like_like(user)
+      answer1.like!(user)
 
       expect { answer1.like_cancel(user) }.to change(answer1.likes, :count).by(-1)
     end
@@ -89,10 +89,10 @@ RSpec.describe Answer, type: :model do
     let(:user4) { create(:user) }
 
     it 'should return sum of likes' do
-      answer1.like_like(user)
-      answer1.like_like(user2)
-      answer1.like_like(user3)
-      answer1.like_dislike(user4)
+      answer1.like!(user)
+      answer1.like!(user2)
+      answer1.like!(user3)
+      answer1.dislike!(user4)
 
       expect(answer1.like_rating).to eq 2
     end
