@@ -21,3 +21,5 @@ h1 All answers for this questions
       .links
         = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'
     = f.submit 'Create answer'
+
+= subscribe_to "/questions/#{@question.id}/answers"
