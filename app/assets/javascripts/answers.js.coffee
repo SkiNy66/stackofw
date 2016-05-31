@@ -5,7 +5,7 @@ ready = ->
     answer_id = $(this).data('answerId')
     $('form#edit-answer-' + answer_id).show()
 
-  $('.likes').bind 'ajax:success', (e, data, status, xhr) ->
+  $('.answers .likes').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     $('#answer-' + response.likable_id + ' .likes-rating').html(response.rating) 
     
