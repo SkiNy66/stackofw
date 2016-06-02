@@ -18,7 +18,20 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params) # .merge(question_id: @question_id))
     @answer.user = current_user
-    @answer.save
+    
+    respond_to do |format|
+      if @answer.save
+        # format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.js # do
+        #   PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+        #   render nothing: true
+        # end
+        # format.json { render json: @user, status: :created, location: @user }
+      else
+        format.js { }
+        # format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
     # if
     # flash[:notice] = 'Your answer successfully created.'
     #  # redirect_to answer.question
