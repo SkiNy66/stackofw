@@ -12,3 +12,11 @@ ready = ->
 $(document).ready(ready) # "вешаем" функцию ready на событие document.ready
 $(document).on('page:load', ready)  # "вешаем" функцию ready на событие page:load
 $(document).on('page:update', ready)
+
+#   questionId = $('.answers').data('questionId')
+#   PrivatePub.subscribe '/questions/' + questionId + '/answers', (data, channel) ->
+#     console.log(data)
+#     response = $.parseJSON(data['answer'])
+#     $('#answers').append() 
+
+# $(document).on('ready page:load', ready)

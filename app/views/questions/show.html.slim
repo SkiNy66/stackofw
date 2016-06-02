@@ -7,7 +7,7 @@ p = link_to 'All questions', questions_path
   = render 'question'
 
 h1 All answers for this questions
-.answers
+.answers data={ question_id: "#{@question.id}"}
   = render 'answers'
 
 - if user_signed_in?

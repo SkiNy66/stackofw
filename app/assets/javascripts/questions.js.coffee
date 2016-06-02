@@ -9,6 +9,11 @@ ready = ->
     response = $.parseJSON(xhr.responseText)
     $('#question-' + response.likable_id + ' .likes-rating').html(response.rating)
     console.log($('#question-' + response.likable_id + ' .likes-rating').html(response.rating))
+
+  PrivatePub.subscribe '/questions', (data, channel) ->
+    console.log(data)
+    question = $.parseJSON(data['question'])
+    $('.questions').append('<h2>' + '<a href="questions/' + question.id + '">' + question.title + '</a>' + '</h2>')
     
 # $(document).ready(ready) # "вешаем" функцию ready на событие document.ready
 # $(document).on('page:load', ready)  # "вешаем" функцию ready на событие page:load
