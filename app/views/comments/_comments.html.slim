@@ -1,10 +1,10 @@
-/ .comments
-/   - commentable.comments.each do |comment|
-/     div id="comment-#{ comment.id }"
-/       - if comment.persisted?
-/         p = comment.body
-/   p = link_to 'Add comment', '', class: 'add-comment-link', data: { commentable: commentable }
-/   p = form_for [ @commentable, @comment ], remote: true do |f|
-/     = f.label :body, "comment body"
-/     = f.text_area :body, id: "body-for-new-comment"
-/     = f.submit 'Add comment'
+.comments
+  - commentable.comments.each do |comment|
+    div id="comment-#{ comment.id }"
+      - if comment.persisted?
+        p = comment.body
+  p = link_to 'Add comment', '', class: 'add-comment-link', data: { commentable: commentable }
+  p = form_for [ @commentable, @comment ], remote: true do |f|
+    = f.label :body, "comment body"
+    = f.text_area :body, id: "body-for-new-comment"
+    = f.submit 'Add comment'

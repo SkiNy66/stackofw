@@ -3,7 +3,7 @@
 = link_to 'Sign out ', destroy_user_session_path, method: :delete
 p = link_to 'All questions', questions_path
 
-.question
+.question data={ question_id: "#{@question.id}"}
   = render 'question'
 
 h1 All answers for this questions
@@ -23,3 +23,4 @@ h1 All answers for this questions
     = f.submit 'Create answer'
 
 = subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}/comments"
