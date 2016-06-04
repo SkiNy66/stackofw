@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CommentsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  # let(:comment) { create(:comment, user: user, commentable: question) }
+  let(:answer) { create(:answer, user: user, question: question) }
 
   describe 'POST #create' do
     before do
@@ -11,32 +11,52 @@ RSpec.describe CommentsController, type: :controller do
     end
 
     context 'with valid attributes' do
-      it 'save comment for question' do
-        sign_in(user)
-        expect { post :create, question_id: question, user_id: user.id, comment: attributes_for(:comment), format: :js }.to change(question.comments, :count).by(1)
+      context 'question' do
+        it 'save comment' do
+          sign_in(user)
+          expect { post :create, commentable: 'question', question_id: question, user_id: user.id, comment: attributes_for(:comment), format: :js }.to change(question.comments, :count).by(1)
+        end
+
+        it 'render template :create' do
+          sign_in(user)
+          post :create, commentable: 'question', question_id: question, comment: attributes_for(:comment), format: :js
+          expect(response).to render_template :create
+        end
+
+        it 'save comment with user_id' do
+          sign_in(user)
+          post :create, commentable: 'question', question_id: question, user_id: user.id, comment: attributes_for(:comment), format: :js
+          expect(Comment.last.user_id).to eq(user.id)
+        end
       end
 
-      it 'render template :create' do
-        sign_in(user)
-        post :create, question_id: question, comment: attributes_for(:comment), format: :js
-        expect(response).to render_template :create
-      end
+      context 'answer' do
+        it 'save comment' do
+          sign_in(user)
+          expect { post :create, commentable: 'answer', answer_id: answer.id, user_id: user.id, comment: attributes_for(:comment), format: :js }.to change(answer.comments, :count).by(1)
+        end
 
-      it 'save comment for question with user_id' do
-        sign_in(user)
-        post :create, question_id: question, user_id: user.id, comment: attributes_for(:comment), format: :js
-        expect(Comment.last.user_id).to eq(user.id)
+        it 'render template :create' do
+          sign_in(user)
+          post :create, commentable: 'answer', answer_id: answer.id, comment: attributes_for(:comment), format: :js
+          expect(response).to render_template :create
+        end
+
+        it 'save comment with user_id' do
+          sign_in(user)
+          post :create, commentable: 'answer', answer_id: answer.id, user_id: user.id, comment: attributes_for(:comment), format: :js
+          expect(Comment.last.user_id).to eq(user.id)
+        end
       end
     end
 
     context 'with invalid attributes' do
       it 'not save comment for question' do
-        expect { post :create, question_id: question, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
+        expect { post :create, commentable: 'question', question_id: question, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
       end
 
-      it 'redirect to show question with answers' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(response).to render_template :create 
+      it 'not save comment for answer' do
+        expect { post :create, commentable: 'answer', answer_id: answer.id, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
       end
     end
   end

@@ -12,12 +12,13 @@ feature 'Create comment', %q{
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Add comment'
-    fill_in 'body-for-new-comment', with: 'This is the comment'
-    click_on 'Create comment'
-
-    expect(current_path).to eq question_path(question)
     within '.question' do
+      click_on 'Add comment'
+      fill_in 'body-for-new-comment', with: 'This is the comment'
+      click_on 'Create comment'
+
+      expect(current_path).to eq question_path(question)
+    
       expect(page).to have_content 'This is the comment'
     end
   end
@@ -33,10 +34,12 @@ feature 'Create comment', %q{
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Add comment'
-    click_on 'Create comment'
+    within '.question' do
+      click_on 'Add comment'
+      click_on 'Create comment'
 
-    expect(page).to have_content "Body can't be blank"
+      expect(page).to have_content "Body can't be blank"
+    end
   end
 
   scenario 'Render new comment via PrivatePub for all subscribers for this channel', js: true do
@@ -45,11 +48,13 @@ feature 'Create comment', %q{
 
     within_window open_new_window do
       visit question_path(question)
-      click_on 'Add comment'
-      fill_in 'body-for-new-comment', with: 'This is the comment'
-      click_on 'Create comment'
+      within '.question' do
+        click_on 'Add comment'
+        fill_in 'body-for-new-comment', with: 'This is the comment'
+        click_on 'Create comment'
 
-      expect(page).to have_content 'This is the comment'
+        expect(page).to have_content 'This is the comment'
+      end
     end
 
     expect(page).to have_content 'This is the comment'
