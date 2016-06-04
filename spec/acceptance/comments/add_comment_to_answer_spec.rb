@@ -42,4 +42,25 @@ feature 'Create comment', %q{
       expect(page).to have_content "Body can't be blank"
     end
   end
+
+  scenario 'Render new comment via PrivatePub for all subscribers for this channel', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    within_window open_new_window do
+      visit question_path(question)
+
+      within '.answers' do
+        click_on 'Add comment'
+        fill_in 'body-for-new-comment', with: 'This is the comment'
+        click_on 'Create comment'
+
+        expect(page).to have_content 'This is the comment'
+      end
+    end
+
+    within '.answers' do
+      expect(page).to have_content 'This is the comment'
+    end
+  end
 end

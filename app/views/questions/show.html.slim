@@ -8,7 +8,7 @@ p = link_to 'All questions', questions_path
 
 h1 All answers for this questions
 .answers data={ question_id: "#{@question.id}"}
-  = render 'answers'
+  = render 'answers' 
 
 - if user_signed_in?
   = form_for [ @question, @answer ], remote: true do |f|
@@ -23,4 +23,6 @@ h1 All answers for this questions
     = f.submit 'Create answer'
 
 = subscribe_to "/questions/#{@question.id}/answers"
-= subscribe_to "/questions/#{@question.id}/comments"
+= subscribe_to "/comments"
+/ = subscribe_to "/questions/#{@question.id}/comments"
+/ = subscribe_to "/answers/#{@answer.id}/comments"
