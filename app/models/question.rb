@@ -1,4 +1,6 @@
 class Question < ActiveRecord::Base
+  include Likable
+
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachmentable, dependent: :destroy
   belongs_to :user

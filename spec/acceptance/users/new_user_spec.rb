@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require 'acceptance_helper'
 
 feature 'Create new user', %q{
   In order to can ask questions and give answers

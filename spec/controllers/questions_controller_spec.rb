@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
+  let(:user2) { create(:user) }
   let(:question) { create(:question, user: user) }
+  let(:question2) { create(:question, user: user2) }
 
   describe 'GET #index' do
     let(:questions) { FactoryGirl.create_list(:question, 2) }
@@ -157,6 +159,74 @@ RSpec.describe QuestionsController, type: :controller do
         delete :destroy, id: question
         expect(response).to redirect_to new_user_session_path
       end
+    end
+  end
+
+  describe 'PATCH #like_up' do
+    context 'Autorized user' do
+      before { sign_in user }
+
+      it "set like 'Like' to question" do
+         expect { patch :like_up, id: question2, format: :json }.to change(question2.likes, :count).by(1)
+      end
+
+      it "not set like 'like' twice from 1 user to 1 question" do
+        patch :like_up, id: question2, format: :json
+        expect { patch :like_up, id: question2, format: :json }.to_not change(question2.likes, :count)
+      end
+
+      it "not set like 'like' to own question" do
+        expect { patch :like_up, id: question, format: :json }.to_not change(question.likes, :count)
+      end
+
+      it "render json with votable id and rating" do
+        patch :like_up, id: question2, format: :json
+        expect(response.body).to eq ({ rating: question2.like_rating, likable_id: question2.id }).to_json
+      end
+    end
+
+    context 'Non-autorized user' do
+      it "tries to set like 'like'" do
+        expect { patch :like_up, id: question2, format: :json }.to_not change(question2.likes, :count)
+      end
+    end
+  end
+
+  describe 'PATCH #like_down' do
+    context 'Autorized user' do
+      before { sign_in user }
+
+      it "set like 'Dislike' to question" do
+        expect { patch :like_down, id: question2, format: :json }.to change(question2.likes, :count).by(1)
+      end
+
+      it "not set like 'Dislike' twice from 1 user to 1 question" do
+        patch :like_down, id: question2, format: :json
+        expect { patch :like_down, id: question2, format: :json }.to_not change(question2.likes, :count)
+      end
+
+      it "not set like 'Dislike' to own question" do
+        expect { patch :like_down, id: question, format: :json }.to_not change(question.likes, :count)
+      end
+
+      it "render json with votable id and rating" do
+        patch :like_down, id: question2, format: :json
+        expect(response.body).to eq ({ rating: question2.like_rating, likable_id: question2.id }).to_json
+      end
+    end
+
+    context 'Non-autorized user' do
+      it "tries to set like 'dislike'" do
+        expect { patch :like_down, id: question2, format: :json }.to_not change(question2.likes, :count)
+      end
+    end
+  end
+
+  describe 'PATCH #like_cancel' do
+    it 'delete exits like' do
+      sign_in user
+      patch :like_up, id: question2, format: :json
+      expect { patch :like_cancel, id: question2, format: :json }.to change(question2.likes, :count).by(-1)
     end
   end
 end

@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Liked
+
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:new, :create]
   before_action :load_answer, only: [:edit, :show, :update, :destroy, :mark_best]
