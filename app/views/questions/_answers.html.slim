@@ -30,10 +30,7 @@
       - if user_signed_in?
         .comments-errors
         p = link_to 'Add comment', '', class: 'new-comment-link'
-        p = form_for [answer, @comment] , remote: true, html: { id: "new-comment"} do |f|
+        p = form_for [answer, Comment.new] , remote: true, html: { id: "new-comment"} do |f|
           = f.label :body, 'comment body'
           = f.text_area :body, id: 'body-for-new-comment'
-          = f.submit 'Create comment'
-
-    / - render 'comments/comments', locals: { commentable: answer}
-      
+          = f.submit 'Create comment'      

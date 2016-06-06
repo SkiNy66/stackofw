@@ -1,6 +1,6 @@
 require 'acceptance_helper'
 
-feature 'Delete files from question', %q{
+feature 'Delete files from answer', %q{
   In order to fix illustrates in my question
   As an question's author
   I'd like to be able to remove attach files

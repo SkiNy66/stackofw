@@ -14,6 +14,7 @@ feature 'Create answer', %q{
     fill_in 'body-for-new-answer', with: 'This is the answer'
     click_on 'Create answer'
 
+
     expect(current_path).to eq question_path(question)
     within '.answers' do
       expect(page).to have_content 'This is the answer'
