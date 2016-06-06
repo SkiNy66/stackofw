@@ -7,22 +7,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { FactoryGirl.create(:answer, question: question, user: user) }
   let(:answer2) { FactoryGirl.create(:answer, question: question, user: user2) }
 
-  # describe 'GET #new' do
-  #   before do
-  #     sign_in(user)
-  #     #get :new, question_id: question
-  #   end
-
-  #   it 'assigns a new answer for question' do
-  #     sign_in(user)
-  #     expect(assigns(:answer)).to be_a_new(Answer)
-  #   end
-
-  #   it 'renders new view' do
-  #     expect(response).to render_template :new
-  #   end
-  # end
-
   describe 'POST #create' do
     before do
       sign_in(user)
@@ -33,9 +17,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirect to show question with answers' do
+      it 'render empty' do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
-        expect(response).to render_template :create # redirect_to question_path(question)
+        expect(response.body).to eq '' #expect(response).to render_template :create
       end
 
       it 'save answer for question with user_id' do
@@ -49,13 +33,10 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, question_id: question, answer: FactoryGirl.attributes_for(:invalid_answer), format: :js }.to_not change(Answer, :count)
       end
 
-      # it 'redirect new view' do
-      #   post :create, question_id: question, answer: FactoryGirl.attributes_for(:invalid_answer)
-      #   expect(response).to render_template :new
-      # end
       it 'redirect to show question with answers' do
-        post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
-        expect(response).to render_template :create # redirect_to question_path(question)
+        post :create, question_id: question, answer: FactoryGirl.attributes_for(:invalid_answer), format: :js
+        
+        expect(response).to render_template :create
       end
     end
   end

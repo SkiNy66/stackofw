@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :questions, concerns: :likable do
+    resources :comments, only: :create, defaults: { commentable: 'questions' }
     resources :answers, concerns: :likable, shallow: true do #only: [:new, :create, :destroy]
+      resources :comments, only: :create, defaults: { commentable: 'answers' }
       member do
         patch 'mark_best'
       end
