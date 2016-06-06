@@ -11,7 +11,6 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.build
     @answer.attachments.build
-    # @comment = @question.comments.build
     @comment = Comment.new
   end
 
@@ -25,28 +24,17 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
-
-    respond_to do |format|
       if @question.save
         flash[:notice] = 'Your question successfully created.'
-        
-        format.html do
-          PrivatePub.publish_to "/questions", question: @question.to_json
-        end
-        
+        PrivatePub.publish_to "/questions", question: @question.to_json
         redirect_to @question
       else
-        format.html { render :new}
+        render :new
       end
-    end
   end
 
   def update
     @question.update(question_params)
-    #   redirect_to @question
-    # else
-    #   render :edit
-    # end
   end
 
   def destroy
