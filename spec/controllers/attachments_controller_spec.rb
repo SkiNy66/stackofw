@@ -7,7 +7,6 @@ RSpec.describe AttachmentsController, type: :controller do
   let!(:attachment) { create(:attachment, attachmentable: question) }
 
   describe 'DELETE #destroy' do
-
     context 'Autorized user' do
       it 'Owner delete attachment' do
         sign_in(user)

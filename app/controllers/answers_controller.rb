@@ -10,12 +10,12 @@ class AnswersController < ApplicationController
   respond_to :json, only: :create
 
   def create
-    respond_with(@answer=@question.answers.create((answer_params).merge(user_id: current_user.id)))
+    respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
   end
 
   def update
     @answer.update(answer_params)
-    respond_with @answer 
+    respond_with @answer
   end
 
   def destroy
@@ -26,12 +26,12 @@ class AnswersController < ApplicationController
     respond_with(@answer.set_best!) if @question.user == current_user
   end
 
-  private 
+  private
 
   def answer_attachments(answer)
     arr = []
     answer.attachments.each_with_index do |attachment, i|
-      arr[i] = {name: attachment.file.identifier, url: attachment.file.url, id: attachment.id}
+      arr[i] = { name: attachment.file.identifier, url: attachment.file.url, id: attachment.id }
     end
     arr.to_json
   end

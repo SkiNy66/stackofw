@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
     respond_with(@questions = Question.all)
   end
 
-  def show  
+  def show
     respond_with @question
   end
 
@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    respond_with(@question = current_user.questions.create(question_params))   
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
@@ -39,12 +39,12 @@ class QuestionsController < ApplicationController
 
   private
 
-  def build_answer 
+  def build_answer
     @answer = @question.answers.build
   end
 
   def publish_question
-    PrivatePub.publish_to "/questions", question: @question.to_json
+    PrivatePub.publish_to '/questions', question: @question.to_json
   end
 
   def load_question
