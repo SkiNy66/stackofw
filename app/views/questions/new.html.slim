@@ -12,7 +12,7 @@ p = link_to 'All questions', questions_path
     = f.text_area :body
   p Attachments:
   p
-    = f.fields_for :attachments do |attachment|
+    = f.fields_for :attachments, @question.attachments.build do |attachment|
       = render 'attachments/attachment_fields', f: attachment
     .links
       = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'

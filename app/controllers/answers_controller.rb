@@ -2,50 +2,37 @@ class AnswersController < ApplicationController
   include Liked
 
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:new, :create]
-  before_action :load_answer, only: [:edit, :show, :update, :destroy, :mark_best]
+  before_action :load_question, only: :create
+  before_action :load_answer, only: [:update, :destroy, :mark_best]
+  after_action :publish_answer, only: :create
 
-  def show
-  end
-
-  def edit
-  end
+  respond_to :js
+  respond_to :json, only: :create
 
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    if @answer.save
-      PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json, attachments: answer_attachments(@answer)
-      render nothing: true
-    else
-      render :create
-    end
+    respond_with(@answer.save)
   end
 
   def update
     @answer.update(answer_params)
-    @question = @answer.question
+    respond_with @answer 
   end
 
   def destroy
-    @question = @answer.question
     if @answer.user == current_user
-      @answer.destroy
-    else
-      redirect_to @question
+      respond_with(@answer.destroy)
     end
   end
 
   def mark_best
-    @question = @answer.question
-    if @question.user == current_user
-      @answer.set_best!
-    else
-      redirect_to @answer.question
-    end
+    # if @question.user == current_user
+      respond_with(@answer.set_best!) if @question.user == current_user
+    # end
   end
 
-  private
+  private 
 
   def answer_attachments(answer)
     arr = []
@@ -53,6 +40,10 @@ class AnswersController < ApplicationController
       arr[i] = {name: attachment.file.identifier, url: attachment.file.url, id: attachment.id}
     end
     arr.to_json
+  end
+
+  def publish_answer
+    PrivatePub.publish_to("/questions/#{@question.id}/answers", answer: @answer.to_json, attachments: answer_attachments(@answer)) if @answer.valid?
   end
 
   def answer_params
@@ -65,5 +56,6 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = Answer.find(params[:id])
+    @question = @answer.question
   end
 end

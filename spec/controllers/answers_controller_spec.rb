@@ -121,10 +121,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'tries to change best answer' do
         expect(answer.best).to eq false
       end
-
-      it 're-render question path' do
-        expect(response).to redirect_to question_path(question)
-      end
     end
   end
 

@@ -16,7 +16,7 @@ h1 All answers for this questions
     .answer-errors
     = f.text_area :body, id: 'body-for-new-answer'
     p
-      = f.fields_for :attachments do |attachment|
+      = f.fields_for :attachments, @answer.attachments.build do |attachment|
         = render 'attachments/attachment_fields', f: attachment
       .links
         = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'
