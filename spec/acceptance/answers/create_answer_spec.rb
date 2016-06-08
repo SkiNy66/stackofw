@@ -14,7 +14,6 @@ feature 'Create answer', %q{
     fill_in 'body-for-new-answer', with: 'This is the answer'
     click_on 'Create answer'
 
-
     expect(current_path).to eq question_path(question)
     within '.answers' do
       expect(page).to have_content 'This is the answer'
@@ -35,24 +34,5 @@ feature 'Create answer', %q{
     click_on 'Create answer'
 
     expect(page).to have_content "Body can't be blank"
-  end
-
-  scenario 'Render new answer in question/show via PrivatePub for all subscribers for this channel', js: true do
-    sign_in(user)
-    visit question_path(question)
-
-    within_window open_new_window do
-      visit question_path(question)
-      fill_in 'body-for-new-answer', with: 'This is the answer'
-      click_on 'Create answer'
-
-      within '.answers' do
-        expect(page).to have_content 'This is the answer'
-      end
-    end
-
-    within '.answers' do
-      expect(page).to have_content 'This is the answer'
-    end
   end
 end

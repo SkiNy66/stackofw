@@ -1,6 +1,5 @@
 class Answer < ActiveRecord::Base
   include Likable
-  include Commentable
 
   belongs_to :question
   belongs_to :user

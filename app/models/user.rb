@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  include Commentable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :questions

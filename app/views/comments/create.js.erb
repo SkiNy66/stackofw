@@ -1,9 +1,0 @@
-<% if @comment.errors.present? %>
-  <% @comment.errors.full_messages.each do |message| %>
-    $('.comments-errors').append('<%= j message %>');
-  <% end %>
-<% else %>
-  $('form#new-comment').hide()
-  $('#body-for-new-comment').val('');
-  $('.question .new-comment-link').show()
-<% end %>

@@ -6,7 +6,6 @@ RSpec.describe Question, type: :model do
     it { is_expected.to have_many(:attachments).dependent(:destroy) }
     it { is_expected.to have_many(:likes).dependent(:destroy) }
     it { is_expected.to belong_to :user }
-    it { is_expected.to have_many(:comments).dependent(:destroy) }
   end
 
   context 'Validations' do

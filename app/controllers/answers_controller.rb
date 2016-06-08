@@ -5,6 +5,10 @@ class AnswersController < ApplicationController
   before_action :load_question, only: [:new, :create]
   before_action :load_answer, only: [:edit, :show, :update, :destroy, :mark_best]
 
+  # def new
+  #   @answer = @question.answers.new
+  # end
+
   def show
   end
 
@@ -12,14 +16,17 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.new(answer_params) # .merge(question_id: @question_id))
     @answer.user = current_user
-    if @answer.save
-      PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json, attachments: answer_attachments(@answer)
-      render nothing: true
-    else
-      render :create
-    end
+    @answer.save
+    # if
+    # flash[:notice] = 'Your answer successfully created.'
+    #  # redirect_to answer.question
+    #  # redirect_to [@answer.question, @answer]
+    #  # redirect_to question_answer_path(@answer.question, @answer)
+    # else
+    #   render :new
+    # end
   end
 
   def update
@@ -31,6 +38,7 @@ class AnswersController < ApplicationController
     @question = @answer.question
     if @answer.user == current_user
       @answer.destroy
+      # flash[:notice] = 'Answer deleted successfully.'
     else
       redirect_to @question
     end
@@ -46,14 +54,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  def answer_attachments(answer)
-    arr = []
-    answer.attachments.each_with_index do |attachment, i|
-      arr[i] = {name: attachment.file.identifier, url: attachment.file.url, id: attachment.id}
-    end
-    arr.to_json
-  end
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
