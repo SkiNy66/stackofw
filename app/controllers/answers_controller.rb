@@ -10,9 +10,7 @@ class AnswersController < ApplicationController
   respond_to :json, only: :create
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    respond_with(@answer.save)
+    respond_with(@answer=@question.answers.create((answer_params).merge(user_id: current_user.id)))
   end
 
   def update
@@ -21,15 +19,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.user == current_user
-      respond_with(@answer.destroy)
-    end
+    respond_with(@answer.destroy) if @answer.user == current_user
   end
 
   def mark_best
-    # if @question.user == current_user
-      respond_with(@answer.set_best!) if @question.user == current_user
-    # end
+    respond_with(@answer.set_best!) if @question.user == current_user
   end
 
   private 
