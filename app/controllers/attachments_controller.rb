@@ -2,12 +2,10 @@ class AttachmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_attachment, only: [:destroy]
 
+  respond_to :js
+  
   def destroy
-    if @attachment.attachmentable.user_id == current_user.id
-      @attachment.destroy
-    else
-      flash[:notice] = 'Oops, something wrong'
-    end
+     respond_with(@attachment.destroy) if @attachment.attachmentable.user_id == current_user.id
   end
 
   private
