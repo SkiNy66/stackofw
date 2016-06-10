@@ -42,7 +42,7 @@ RSpec.describe Question, type: :model do
     context 'new vote' do
       it 'should create new vote and set type_like to -1' do
         expect { question.dislike!(user) }.to change(question.likes, :count).by(1)
-        expect(question.likes.first.type_vote).to eq -1
+        expect(question.likes.first.type_vote).to eq(-1)
       end
     end
 
@@ -51,7 +51,7 @@ RSpec.describe Question, type: :model do
         question.like!(user)
 
         expect { question.dislike!(user) }.to_not change(question.likes, :count)
-        expect(question.likes.first.type_vote).to eq -1
+        expect(question.likes.first.type_vote).to eq(-1)
       end
     end
   end

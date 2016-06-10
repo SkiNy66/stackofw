@@ -7,7 +7,6 @@ RSpec.describe CommentsController, type: :controller do
 
   describe 'POST #create' do
     before do
-      
     end
 
     context 'with valid attributes' do

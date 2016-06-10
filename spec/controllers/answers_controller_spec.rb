@@ -19,7 +19,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'render empty' do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
-        expect(response.body).to eq '' #expect(response).to render_template :create
+        expect(response.body).to eq '' # expect(response).to render_template :create
       end
 
       it 'save answer for question with user_id' do
@@ -35,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to show question with answers' do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:invalid_answer), format: :js
-        
+
         expect(response).to render_template :create
       end
     end
@@ -121,10 +121,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'tries to change best answer' do
         expect(answer.best).to eq false
       end
-
-      it 're-render question path' do
-        expect(response).to redirect_to question_path(question)
-      end
     end
   end
 
@@ -133,7 +129,7 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in user }
 
       it "set like 'Like' to question" do
-         expect { patch :like_up, id: answer2, format: :json }.to change(answer2.likes, :count).by(1)
+        expect { patch :like_up, id: answer2, format: :json }.to change(answer2.likes, :count).by(1)
       end
 
       it "not set like 'like' twice from 1 user to 1 question" do
@@ -145,9 +141,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { patch :like_up, id: answer, format: :json }.to_not change(answer.likes, :count)
       end
 
-      it "render json with votable id and rating" do
+      it 'render json with votable id and rating' do
         patch :like_up, id: answer2, format: :json
-        expect(response.body).to eq ({ rating: answer2.like_rating, likable_id: answer2.id }).to_json
+        expect(response.body).to eq(({ rating: answer2.like_rating, likable_id: answer2.id }).to_json)
       end
     end
 
@@ -175,9 +171,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { patch :like_down, id: answer, format: :json }.to_not change(answer.likes, :count)
       end
 
-      it "render json with votable id and rating" do
+      it 'render json with votable id and rating' do
         patch :like_down, id: answer2, format: :json
-        expect(response.body).to eq ({ rating: answer2.like_rating, likable_id: answer2.id }).to_json
+        expect(response.body).to eq(({ rating: answer2.like_rating, likable_id: answer2.id }).to_json)
       end
     end
 

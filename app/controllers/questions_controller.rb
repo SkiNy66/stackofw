@@ -3,52 +3,49 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :build_answer, only: :show
+  after_action :publish_question, only: :create
+
+  respond_to :html
+  respond_to :js, only: [:update]
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
-    @comment = Comment.new
+    respond_with @question
   end
 
   def new
-    @question = current_user.questions.new
-    @question.attachments.build
+    respond_with(@question = current_user.questions.new)
   end
 
   def edit
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-      if @question.save
-        flash[:notice] = 'Your question successfully created.'
-        PrivatePub.publish_to "/questions", question: @question.to_json
-        redirect_to @question
-      else
-        render :new
-      end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
     @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if @question.user == current_user
-      flash[:notice] = 'Your question successfully deleted.'
-      @question.destroy
-      redirect_to questions_path
-    else
-      flash[:notice] = 'Question could not deleted.'
-      redirect_to @question
-    end
+    respond_with(@question.destroy)
   end
 
   private
+
+  def build_answer
+    @answer = @question.answers.build
+  end
+
+  def publish_question
+    PrivatePub.publish_to('/questions', question: @question.to_json) if @question.valid?
+  end
 
   def load_question
     @question = Question.find(params[:id])

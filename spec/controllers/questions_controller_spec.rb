@@ -27,10 +27,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
-    it 'builds new attachment for answer' do
-      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-    end
-
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -42,10 +38,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
-    end
-
-    it 'builds new attachment for question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
     end
 
     it 'renders new view' do
@@ -167,7 +159,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in user }
 
       it "set like 'Like' to question" do
-         expect { patch :like_up, id: question2, format: :json }.to change(question2.likes, :count).by(1)
+        expect { patch :like_up, id: question2, format: :json }.to change(question2.likes, :count).by(1)
       end
 
       it "not set like 'like' twice from 1 user to 1 question" do
@@ -179,9 +171,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { patch :like_up, id: question, format: :json }.to_not change(question.likes, :count)
       end
 
-      it "render json with votable id and rating" do
+      it 'render json with votable id and rating' do
         patch :like_up, id: question2, format: :json
-        expect(response.body).to eq ({ rating: question2.like_rating, likable_id: question2.id }).to_json
+        expect(response.body).to eq(({ rating: question2.like_rating, likable_id: question2.id }).to_json)
       end
     end
 
@@ -209,9 +201,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { patch :like_down, id: question, format: :json }.to_not change(question.likes, :count)
       end
 
-      it "render json with votable id and rating" do
+      it 'render json with votable id and rating' do
         patch :like_down, id: question2, format: :json
-        expect(response.body).to eq ({ rating: question2.like_rating, likable_id: question2.id }).to_json
+        expect(response.body).to eq(({ rating: question2.like_rating, likable_id: question2.id }).to_json)
       end
     end
 

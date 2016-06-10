@@ -18,7 +18,7 @@ feature 'Create comment', %q{
       click_on 'Create comment'
 
       expect(current_path).to eq question_path(question)
-    
+
       expect(page).to have_content 'This is the comment'
     end
   end
