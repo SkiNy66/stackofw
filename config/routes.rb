@@ -8,7 +8,8 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+
   resources :questions, concerns: :likable do
     resources :comments, only: :create, defaults: { commentable: 'questions' }
     resources :answers, concerns: :likable, shallow: true do #only: [:new, :create, :destroy]
