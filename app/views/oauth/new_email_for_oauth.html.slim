@@ -1,0 +1,4 @@
+= form_tag "/oauth/save_email_for_oauth", method: "post" do
+  = label_tag :email, "email"
+  = text_field_tag :email
+  = submit_tag 'Save email'
