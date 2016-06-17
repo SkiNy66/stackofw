@@ -20,6 +20,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get "oauth/new_email_for_oauth", as: 'new_email_for_oauth'
+  post "oauth/save_email_for_oauth", as: 'save_email_for_oauth'
+
   root to: "questions#index"
   resources :attachments, only: :destroy
 

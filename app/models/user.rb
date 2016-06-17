@@ -5,18 +5,19 @@ class User < ActiveRecord::Base
   has_many :questions
   has_many :answers
   has_many :likes, dependent: :destroy
-  has_many :authorizations
+  has_many :authorizations, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
     email = auth.info[:email]
+    return nil if email.blank?
+    
     user = User.where(email: email).first
-    # user.authorizations.create(provider: auth.provider, uid: auth.uid) if user
     if user
       user.create_authorization(auth)
     else
