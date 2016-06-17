@@ -17,7 +17,7 @@ feature 'User can sign in with Twitter', %q{
     click_on 'Save email'
     click_on 'Sign in with Twitter'
 
-    expect(page).to have_content 'Successfully authenticated from Twitter account.'
+    expect(page).to have_content 'Successfully authenticated from twitter account.'
   end
 
   scenario 'add authorization to user' do
@@ -30,7 +30,7 @@ feature 'User can sign in with Twitter', %q{
     click_on 'Save email'
     click_on 'Sign in with Twitter'
 
-    expect(page).to have_content 'Successfully authenticated from Twitter account.'
+    expect(page).to have_content 'Successfully authenticated from twitter account.'
   end
 
   scenario 'sign user with authorization' do
@@ -39,7 +39,7 @@ feature 'User can sign in with Twitter', %q{
     twitter_mock_auth_hash
     click_on 'Sign in with Twitter'
 
-    expect(page).to have_content 'Successfully authenticated from Twitter account.'
+    expect(page).to have_content 'Successfully authenticated from twitter account.'
   end
 
   it 'handle authentication error' do

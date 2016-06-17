@@ -13,7 +13,7 @@ feature 'User can sign in with Facebook', %q{
     facebook_mock_auth_hash
     click_on 'Sign in with Facebook'
 
-    expect(page).to have_content 'Successfully authenticated from Facebook account'
+    expect(page).to have_content 'Successfully authenticated from facebook account'
   end
 
   scenario 'add authorization to user' do
@@ -22,7 +22,7 @@ feature 'User can sign in with Facebook', %q{
     facebook_mock_auth_hash(info: {email: user.email})
     click_on 'Sign in with Facebook'
 
-    expect(page).to have_content 'Successfully authenticated from Facebook account.'
+    expect(page).to have_content 'Successfully authenticated from facebook account.'
   end
 
   scenario 'sign user with authorization' do
@@ -31,7 +31,7 @@ feature 'User can sign in with Facebook', %q{
     facebook_mock_auth_hash(info: {email: user.email})
     click_on 'Sign in with Facebook'
 
-    expect(page).to have_content 'Successfully authenticated from Facebook account.'
+    expect(page).to have_content 'Successfully authenticated from facebook account.'
   end
 
   it 'handle authentication error' do
