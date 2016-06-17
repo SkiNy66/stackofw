@@ -10,9 +10,9 @@ RSpec.describe OauthController, type: :controller do
 
   describe "POST #save_email_for_oauth" do
     before do
-      session['devise.oauth_data'] = {provider: 'twitter', uid: '123456'}
+      session['devise.oauth_data'] = { provider: 'twitter', uid: '123456' }
     end
-    
+
     context 'with valid data' do
       it 'assigns user to User' do
         post :save_email_for_oauth, email: 'email1@test.com'

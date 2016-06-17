@@ -19,7 +19,7 @@ feature 'User can sign in with Facebook', %q{
   scenario 'add authorization to user' do
     user
     visit new_user_registration_path
-    facebook_mock_auth_hash(info: {email: user.email})
+    facebook_mock_auth_hash(info: { email: user.email })
     click_on 'Sign in with Facebook'
 
     expect(page).to have_content 'Successfully authenticated from facebook account.'
@@ -28,7 +28,7 @@ feature 'User can sign in with Facebook', %q{
   scenario 'sign user with authorization' do
     user.authorizations.create(provider: 'facebook', uid: '123456')
     visit new_user_registration_path
-    facebook_mock_auth_hash(info: {email: user.email})
+    facebook_mock_auth_hash(info: { email: user.email })
     click_on 'Sign in with Facebook'
 
     expect(page).to have_content 'Successfully authenticated from facebook account.'

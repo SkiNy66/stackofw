@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
     email = auth.info[:email]
     return nil if email.blank?
-    
+
     user = User.where(email: email).first
     if user
       user.create_authorization(auth)
@@ -27,9 +27,9 @@ class User < ActiveRecord::Base
     end
 
     user
-  end 
+  end
 
   def create_authorization(auth)
     self.authorizations.create(provider: auth.provider, uid: auth.uid)
-  end         
+  end
 end

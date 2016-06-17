@@ -4,7 +4,7 @@ class OauthController < ApplicationController
 
   def save_email_for_oauth
     email = params[:email]
-    
+
     if email.blank?
       redirect_to new_email_for_oauth_path
     else

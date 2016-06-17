@@ -17,7 +17,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
 
       it 'user signed in' do
         should be_user_signed_in
-      end 
+      end
     end
 
     context 'user without authorizations' do
@@ -37,7 +37,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
 
     context 'user with authorizations' do
       let(:auth){ create(:authorization, user: user) }
-      
+
       before do
         request.env['omniauth.auth'] = OmniAuth::AuthHash.new({ provider: auth.provider, uid: auth.uid, info: { email: user.email } })
         get :facebook
@@ -69,7 +69,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
 
       it 'user signed in' do
         should be_user_signed_in
-      end 
+      end
     end
 
     context 'user without authorizations' do
@@ -89,7 +89,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
 
     context 'user with authorizations' do
       let(:auth){ create(:authorization, user: user) }
-      
+
       before do
         request.env['omniauth.auth'] = OmniAuth::AuthHash.new({ provider: auth.provider, uid: auth.uid, info: { email: user.email } })
         get :twitter
