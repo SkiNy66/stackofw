@@ -9,15 +9,20 @@ class QuestionsController < ApplicationController
   respond_to :html
   respond_to :js, only: [:update]
 
+  authorize_resource
+
   def index
+    # authorize! :read, Question
     respond_with(@questions = Question.all)
   end
 
   def show
+    # authorize! :read, @question
     respond_with @question
   end
 
   def new
+    # authorize! :create, Question
     respond_with(@question = current_user.questions.new)
   end
 
