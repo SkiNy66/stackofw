@@ -24,6 +24,9 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user: user
+    can [:update,:destroy], [Question, Answer], user_id: user.id
+    can :destroy, Attachment, attachmentable: { user_id: user.id }
+    can :mark_best, Answer, question: { user_id: user.id}
+    can [:like_up, :like_down, :like_cancel], [Question, Answer] { |likable| likable.user_id != user.id }
   end
 end

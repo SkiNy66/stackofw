@@ -90,7 +90,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update', js: true do
-    sign_in_user
+    before { sign_in(user) }
 
     context 'valid attributes' do
       it 'assings the requested question to @question' do
@@ -120,7 +120,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq 'Question_text'
       end
 
-      it 're-renders update view' do
+      it 'render updated question' do
         expect(response).to render_template :update
       end
     end

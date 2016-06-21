@@ -27,18 +27,22 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    # authorize! :update, @question
   end
 
   def create
+    # authorize! :create, Question
     respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
+    # authorize! :update, Question
     @question.update(question_params)
     respond_with @question
   end
 
   def destroy
+    # authorize! :destroy, @question
     respond_with(@question.destroy)
   end
 
