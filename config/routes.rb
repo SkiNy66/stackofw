@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  use_doorkeeper
   concern :likable do
     member do
       post :like_up
@@ -16,6 +17,15 @@ Rails.application.routes.draw do
       resources :comments, only: :create, defaults: { commentable: 'answers' }
       member do
         patch 'mark_best'
+      end
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+        get :users, on: :collection
       end
     end
   end
