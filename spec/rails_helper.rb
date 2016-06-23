@@ -7,6 +7,7 @@ abort('The Rails environment is running in development mode!') if Rails.env.deve
 require 'spec_helper'
 require 'rspec/rails'
 require 'shoulda/matchers'
+require 'cancan/matchers'
 
 ::Shoulda::Matchers.configure do |config|
   config.integrate do |with|

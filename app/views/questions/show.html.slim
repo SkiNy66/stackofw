@@ -10,7 +10,7 @@ h1 All answers for this questions
 .answers data={ question_id: "#{@question.id}"}
   = render 'answers' 
 
-- if user_signed_in?
+- if can?(:create, Answer)
   = form_for [ @question, @answer ], remote: true do |f|
     = f.label :body, "You can answer"
     .answer-errors
@@ -24,5 +24,3 @@ h1 All answers for this questions
 
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/comments"
-/ = subscribe_to "/questions/#{@question.id}/comments"
-/ = subscribe_to "/answers/#{@answer.id}/comments"
