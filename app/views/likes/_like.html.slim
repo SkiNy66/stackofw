@@ -1,5 +1,5 @@
 .likes
-  - if user_signed_in? && likable.user_id != current_user.id
+  - if can?(:like_up, likable) && can?(:like_down, likable) && can?(:like_cancel, likable)
     = link_to "Like", polymorphic_path(likable, action: :like_up), method: :post, remote: true
     = link_to "Dislike", polymorphic_path(likable, action: :like_down), method: :post, remote: true
     = link_to "Cancel", polymorphic_path(likable, action: :like_cancel), method: :post, remote: true
