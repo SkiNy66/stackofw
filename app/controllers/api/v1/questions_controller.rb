@@ -1,15 +1,14 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  ActiveModelSerializers.config.adapter = :json
 
   before_action :load_question, only: :show
   
   def index
     @questions = Question.all
-    respond_with @questions
+    respond_with @questions, each_serializer: QuestionCollectionSerializer
   end
 
   def show
-    respond_with @question, serializer: QuestionCollectionSerializer
+    respond_with @question
   end
 
   private
