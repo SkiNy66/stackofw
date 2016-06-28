@@ -17,7 +17,7 @@ describe 'Questions API' do
     context 'authorized' do
       let(:user) { create(:user) }
       let(:access_token) { create(:access_token) }
-      let!(:questions) { create_list(:question,2) }
+      let!(:questions) { create_list(:question, 2) }
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question, user: user) }
 
@@ -28,25 +28,25 @@ describe 'Questions API' do
       end
 
       it 'returns list of questions' do
-        expect(response.body).to have_json_size(2).at_path("questions/")
+        expect(response.body).to have_json_size(2).at_path('questions/')
       end
 
-      %w(id title body created_at updated_at).each do |attr| 
+      %w(id title body created_at updated_at).each do |attr|
         it "questions object contains #{attr}" do
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
         end
       end
 
       it 'question object contains short title' do
-        expect(response.body).to be_json_eql(question.title.truncate(10).to_json).at_path("questions/0/short_title")
+        expect(response.body).to be_json_eql(question.title.truncate(10).to_json).at_path('questions/0/short_title')
       end
 
       context 'answers' do
         it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("questions/0/answers")
+          expect(response.body).to have_json_size(1).at_path('questions/0/answers')
         end
 
-        %w(id body created_at updated_at).each do |attr| 
+        %w(id body created_at updated_at).each do |attr|
           it "contains #{attr}" do
             expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
           end
@@ -72,8 +72,8 @@ describe 'Questions API' do
       let(:user) { create(:user) }
       let(:access_token) { create(:access_token) }
       let!(:question) { create(:question) }
-      let!(:comment){ create(:comment, commentable: question, user: user) }
-      let!(:attachment){ create(:attachment, attachmentable: question) }
+      let!(:comment) { create(:comment, commentable: question, user: user) }
+      let!(:attachment) { create(:attachment, attachmentable: question) }
 
       before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
 
@@ -85,7 +85,7 @@ describe 'Questions API' do
         expect(response.body).to have_json_size(1)
       end
 
-      %w(id title body created_at updated_at).each do |attr| 
+      %w(id title body created_at updated_at).each do |attr|
         it "question object contains #{attr}" do
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
@@ -93,10 +93,10 @@ describe 'Questions API' do
 
       context 'comments' do
         it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("question/comments")
+          expect(response.body).to have_json_size(1).at_path('question/comments')
         end
 
-        %w(id body created_at updated_at).each do |attr| 
+        %w(id body created_at updated_at).each do |attr|
           it "question object contains #{attr}" do
             expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
           end
@@ -105,11 +105,11 @@ describe 'Questions API' do
 
       context 'attachments' do
         it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("question/attachments")
+          expect(response.body).to have_json_size(1).at_path('question/attachments')
         end
 
         it 'contains url' do
-          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("question/attachments/0/file/url")
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/file/url')
         end
       end
     end
@@ -133,11 +133,10 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
       context 'valid data' do
-
-        before { post "/api/v1/questions",format: :json, access_token: access_token.token, question: attributes_for(:question) }
+        before { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }
 
         it 'saves question in db' do
-          expect { post "/api/v1/questions",format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(Question, :count).by(1)
+          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(Question, :count).by(1)
         end
 
         it 'belongs to user' do
@@ -151,11 +150,11 @@ describe 'Questions API' do
 
       context 'invalid data' do
         it 'not saves question in db' do
-          expect { post "/api/v1/questions",format: :json, access_token: access_token.token, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
+          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
         end
 
-        it 'returns 422 status' do 
-          post "/api/v1/questions",format: :json, access_token: access_token.token, question: attributes_for(:invalid_question)
+        it 'returns 422 status' do
+          post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:invalid_question)
           expect(response.status).to eq 422
         end
       end

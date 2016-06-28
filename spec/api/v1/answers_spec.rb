@@ -28,10 +28,10 @@ describe 'Answers API' do
       end
 
       it 'returns list of answers' do
-        expect(response.body).to have_json_size(3).at_path("answers")
-      end      
+        expect(response.body).to have_json_size(3).at_path('answers')
+      end
 
-      %w(id body created_at updated_at).each do |attr| 
+      %w(id body created_at updated_at).each do |attr|
         it "answers object contains #{attr}" do
           expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answers/0/#{attr}")
         end
@@ -57,8 +57,8 @@ describe 'Answers API' do
       let(:access_token) { create(:access_token) }
       let!(:question) { create(:question) }
       let!(:answer) { create(:answer, question: question, user: user) }
-      let!(:comment){ create(:comment, commentable: answer, user: user) }
-      let!(:attachment){ create(:attachment, attachmentable: answer) }
+      let!(:comment) { create(:comment, commentable: answer, user: user) }
+      let!(:attachment) { create(:attachment, attachmentable: answer) }
 
       before { get "/api/v1/answers/#{answer.id}", format: :json, access_token: access_token.token }
 
@@ -70,7 +70,7 @@ describe 'Answers API' do
         expect(response.body).to have_json_size(1)
       end
 
-      %w(id body created_at updated_at).each do |attr| 
+      %w(id body created_at updated_at).each do |attr|
         it "answer object contains #{attr}" do
           expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answer/#{attr}")
         end
@@ -78,10 +78,10 @@ describe 'Answers API' do
 
       context 'comments' do
         it 'included in answer object' do
-          expect(response.body).to have_json_size(1).at_path("answer/comments")
+          expect(response.body).to have_json_size(1).at_path('answer/comments')
         end
 
-        %w(id body created_at updated_at).each do |attr| 
+        %w(id body created_at updated_at).each do |attr|
           it "answer object contains #{attr}" do
             expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("answer/comments/0/#{attr}")
           end
@@ -90,11 +90,11 @@ describe 'Answers API' do
 
       context 'attachments' do
         it 'included in answer object' do
-          expect(response.body).to have_json_size(1).at_path("answer/attachments")
+          expect(response.body).to have_json_size(1).at_path('answer/attachments')
         end
 
         it 'contains url' do
-          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("answer/attachments/0/file/url")
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('answer/attachments/0/file/url')
         end
       end
     end
@@ -119,11 +119,10 @@ describe 'POST /create' do
       let!(:question) { create(:question) }
 
       context 'valid data' do
-
-        before { post "/api/v1/answers",format: :json, access_token: access_token.token, answer: attributes_for(:answer), id: question.id }
+        before { post '/api/v1/answers', format: :json, access_token: access_token.token, answer: attributes_for(:answer), id: question.id }
 
         it 'saves answer in db' do
-          expect { post "/api/v1/answers",format: :json, access_token: access_token.token, answer: attributes_for(:answer), id: question.id }.to change(Answer, :count).by(1)
+          expect { post '/api/v1/answers', format: :json, access_token: access_token.token, answer: attributes_for(:answer), id: question.id }.to change(Answer, :count).by(1)
         end
 
         it 'belongs to user' do
@@ -141,11 +140,11 @@ describe 'POST /create' do
 
       context 'invalid data' do
         it 'not saves answer in db' do
-          expect { post "/api/v1/answers",format: :json, access_token: access_token.token, answer: attributes_for(:invalid_answer), id: question.id }.to_not change(Answer, :count)
+          expect { post '/api/v1/answers', format: :json, access_token: access_token.token, answer: attributes_for(:invalid_answer), id: question.id }.to_not change(Answer, :count)
         end
 
-        it 'returns 422 status' do 
-          post "/api/v1/answers",format: :json, access_token: access_token.token, answer: attributes_for(:invalid_answer), id: question.id
+        it 'returns 422 status' do
+          post '/api/v1/answers', format: :json, access_token: access_token.token, answer: attributes_for(:invalid_answer), id: question.id
           expect(response.status).to eq 422
         end
       end

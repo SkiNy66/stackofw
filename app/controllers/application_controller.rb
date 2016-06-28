@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
       format.json { head :forbidden }
     end
   end
-  
+
   def set_js_variables
     gon.user_signed_in = user_signed_in?
     gon.current_user_id = current_user.id if user_signed_in?
