@@ -114,4 +114,8 @@ describe 'Questions API' do
       end
     end
   end
+
+  describe 'POST /create' do
+    it 'creates question'
+  end
 end
