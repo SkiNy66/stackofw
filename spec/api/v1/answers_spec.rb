@@ -97,9 +97,9 @@ describe 'Answers API' do
           expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("answer/attachments/0/file/url")
         end
       end
-
     end
   end
+  
   describe 'GET /create' do
     it 'creates answer'
   end
