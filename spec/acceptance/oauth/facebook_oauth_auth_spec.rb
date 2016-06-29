@@ -5,7 +5,6 @@ feature 'User can sign in with Facebook', %q{
   As an User
   I want to be able to sign in
 } do
-
   given(:user) { create(:user) }
 
   scenario 'sign up new user' do

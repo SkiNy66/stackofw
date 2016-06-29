@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe OmniauthCallbacksController, type: :controller do
-  describe "GET #facebook" do
+  describe 'GET #facebook' do
     let(:user) { create(:user) }
-    before { @request.env["devise.mapping"] = Devise.mappings[:user] }
+    before { @request.env['devise.mapping'] = Devise.mappings[:user] }
 
     context 'user does not exit' do
       before do
@@ -36,7 +36,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
     end
 
     context 'user with authorizations' do
-      let(:auth){ create(:authorization, user: user) }
+      let(:auth) { create(:authorization, user: user) }
 
       before do
         request.env['omniauth.auth'] = OmniAuth::AuthHash.new({ provider: auth.provider, uid: auth.uid, info: { email: user.email } })
@@ -53,9 +53,9 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
     end
   end
 
-  describe "GET #twitter" do
+  describe 'GET #twitter' do
     let(:user) { create(:user) }
-    before { @request.env["devise.mapping"] = Devise.mappings[:user] }
+    before { @request.env['devise.mapping'] = Devise.mappings[:user] }
 
     context 'user does not exit' do
       before do
@@ -88,7 +88,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
     end
 
     context 'user with authorizations' do
-      let(:auth){ create(:authorization, user: user) }
+      let(:auth) { create(:authorization, user: user) }
 
       before do
         request.env['omniauth.auth'] = OmniAuth::AuthHash.new({ provider: auth.provider, uid: auth.uid, info: { email: user.email } })

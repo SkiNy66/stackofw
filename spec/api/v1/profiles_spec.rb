@@ -71,7 +71,7 @@ describe 'Profile API' do
 
       %w(id email created_at updated_at admin).each do |attr|
         it "every user contains #{attr}" do
-          users.each_with_index do |user, a| 
+          users.each_with_index do |user, a|
             expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path("#{a}/#{attr}")
           end
         end
@@ -79,7 +79,7 @@ describe 'Profile API' do
 
       %w(password encrypted_password).each do |attr|
         it "every userdoes not contains #{attr}" do
-          users.each_with_index do |user, a| 
+          users.each_with_index do |user, a|
             expect(response.body).to_not have_json_path("#{a}/#{attr}")
           end
         end

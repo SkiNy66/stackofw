@@ -35,7 +35,7 @@ RSpec.describe User, type: :model do
         end
 
         it 'creates authotization for user' do
-          expect { User.find_for_oauth(auth) }.to  change(user.authorizations, :count).by(1)
+          expect { User.find_for_oauth(auth) }.to change(user.authorizations, :count).by(1)
         end
 
         it 'creates authotization with provider and uid' do

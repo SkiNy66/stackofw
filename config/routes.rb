@@ -27,6 +27,8 @@ Rails.application.routes.draw do
         get :me, on: :collection
         get :users, on: :collection
       end
+      resources :questions, only: [:index, :show, :create]
+      resources :answers, only: [:index, :show, :create]
     end
   end
 

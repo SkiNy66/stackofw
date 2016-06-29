@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe OauthController, type: :controller do
-  describe "GET #new_email_for_oauth" do
+  describe 'GET #new_email_for_oauth' do
     it 'render template :new_email_for_oauth' do
       get :new_email_for_oauth
       expect(response).to render_template :new_email_for_oauth
     end
   end
 
-  describe "POST #save_email_for_oauth" do
+  describe 'POST #save_email_for_oauth' do
     before do
       session['devise.oauth_data'] = { provider: 'twitter', uid: '123456' }
     end
