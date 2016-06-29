@@ -1,5 +1,8 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
   before_action :load_question, only: :show
+  before_action :current_ability, only: :create
+
+  authorize_resource
 
   def index
     @questions = Question.all
