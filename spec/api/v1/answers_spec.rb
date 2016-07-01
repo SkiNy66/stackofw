@@ -2,17 +2,7 @@ require 'rails_helper'
 
 describe 'Answers API' do
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/answers', format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/answers', format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:user) { create(:user) }
@@ -37,20 +27,14 @@ describe 'Answers API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/answers', { format: :json }.merge(options)
+    end
   end
 
   describe 'GET /show' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/answers/0', format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/answers/0', format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:user) { create(:user) }
@@ -98,20 +82,14 @@ describe 'Answers API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/answers/0', { format: :json }.merge(options)
+    end
   end
 
-describe 'POST /create' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        post '/api/v1/answers', format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        post '/api/v1/answers', format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+  describe 'POST /create' do
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let!(:user) { create(:user) }
@@ -148,6 +126,10 @@ describe 'POST /create' do
           expect(response.status).to eq 422
         end
       end
+    end
+
+    def do_request(options = {})
+      post '/api/v1/answers', { format: :json }.merge(options)
     end
   end
 end
