@@ -11,7 +11,7 @@ describe 'Questions API' do
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question, user: user) }
 
-      before { get '/api/v1/questions', format: :json, access_token: access_token.token }
+      before { do_request(access_token: access_token.token) }
 
       it 'returns 200 status code' do
         expect(response).to be_success
@@ -50,16 +50,17 @@ describe 'Questions API' do
   end
 
   describe 'GET /show' do
+    let!(:question) { create(:question) }
+
     it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:user) { create(:user) }
-      let(:access_token) { create(:access_token) }
-      let!(:question) { create(:question) }
+      let(:access_token) { create(:access_token) }  
       let!(:comment) { create(:comment, commentable: question, user: user) }
       let!(:attachment) { create(:attachment, attachmentable: question) }
 
-      before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
+      before { do_request(access_token: access_token.token) }
 
       it 'returns 200 status code' do
         expect(response).to be_success
@@ -99,7 +100,7 @@ describe 'Questions API' do
     end
 
     def do_request(options = {})
-      get '/api/v1/questions/0', { format: :json }.merge(options)
+      get "/api/v1/questions/#{question.id}", { format: :json }.merge(options)
     end
   end
 
@@ -109,33 +110,9 @@ describe 'Questions API' do
     context 'authorized' do
       let!(:user) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+      let!(:object){ 'question' }
 
-      context 'valid data' do
-        before { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }
-
-        it 'saves question in db' do
-          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(Question, :count).by(1)
-        end
-
-        it 'belongs to user' do
-           expect(Question.last.user_id).to eq(user.id)
-        end
-
-        it 'returns 201 status' do
-          expect(response.status).to eq 201
-        end
-      end
-
-      context 'invalid data' do
-        it 'not saves question in db' do
-          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
-        end
-
-        it 'returns 422 status' do
-          post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:invalid_question)
-          expect(response.status).to eq 422
-        end
-      end
+      it_behaves_like "API Creatable"
     end
 
     def do_request(options = {})
