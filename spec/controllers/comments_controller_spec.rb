@@ -27,6 +27,12 @@ RSpec.describe CommentsController, type: :controller do
           post :create, commentable: 'question', question_id: question, user_id: user.id, comment: attributes_for(:comment), format: :js
           expect(Comment.last.user_id).to eq(user.id)
         end
+
+        it 'publish message to channel PrivatePub' do
+          sign_in(user)
+          expect(PrivatePub).to receive(:publish_to).with("/comments", anything)
+          post :create, commentable: 'question', question_id: question, user_id: user.id, comment: attributes_for(:comment), format: :js
+        end
       end
 
       context 'answer' do
@@ -46,6 +52,12 @@ RSpec.describe CommentsController, type: :controller do
           post :create, commentable: 'answer', answer_id: answer.id, user_id: user.id, comment: attributes_for(:comment), format: :js
           expect(Comment.last.user_id).to eq(user.id)
         end
+
+        it 'publish message to channel PrivatePub' do
+          sign_in(user)
+          expect(PrivatePub).to receive(:publish_to).with("/comments", anything)
+          post :create, commentable: 'answer', answer_id: answer.id, user_id: user.id, comment: attributes_for(:comment), format: :js
+        end
       end
     end
 
@@ -54,8 +66,19 @@ RSpec.describe CommentsController, type: :controller do
         expect { post :create, commentable: 'question', question_id: question, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
       end
 
+      it 'dont publish message to channel PrivatePub' do
+        sign_in(user)
+        expect(PrivatePub).to_not receive(:publish_to).with("/comments", anything)
+        post :create, commentable: 'question', question_id: question, user_id: user.id, comment: attributes_for(:invalid_comment), format: :js
+      end
+
       it 'not save comment for answer' do
         expect { post :create, commentable: 'answer', answer_id: answer.id, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
+      end
+
+      it 'dont publish message to channel PrivatePub' do
+        expect(PrivatePub).to_not receive(:publish_to).with("/comments", anything)
+        post :create, commentable: 'answer', answer_id: answer.id, user_id: user.id, comment: attributes_for(:invalid_comment), format: :js
       end
     end
   end

@@ -26,6 +26,11 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
         expect(answer.user_id).to eq(user.id)
       end
+
+      it 'publish message to channel PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to).with("/questions/#{ question.id }/answers", anything)
+        post :create, question_id: question, answer: FactoryGirl.attributes_for(:answer), format: :js
+      end
     end
 
     context 'with invalid attributes' do
@@ -37,6 +42,11 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: FactoryGirl.attributes_for(:invalid_answer), format: :js
 
         expect(response).to render_template :create
+      end
+
+      it 'dont publish message to channel PrivatePub' do
+        expect(PrivatePub).to_not receive(:publish_to)
+        post :create, question_id: question, answer: FactoryGirl.attributes_for(:invalid_answer), format: :js
       end
     end
   end

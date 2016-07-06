@@ -75,6 +75,11 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: FactoryGirl.attributes_for(:question)
         expect(question.user_id).to eq(user.id)
       end
+
+      it 'publish message to channel PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to).with("/questions", anything)
+        post :create, question: FactoryGirl.attributes_for(:question)
+      end
     end
 
     context 'with invalid attributes' do
@@ -85,6 +90,11 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders new view' do
         post :create, question: FactoryGirl.attributes_for(:invalid_question)
         expect(response).to render_template :new
+      end
+
+      it 'dont publish message to channel PrivatePub' do
+        expect(PrivatePub).to_not receive(:publish_to).with("/questions", anything)
+        post :create, question: FactoryGirl.attributes_for(:invalid_question)
       end
     end
   end
