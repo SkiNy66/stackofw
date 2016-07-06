@@ -40,62 +40,9 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe 'like! method' do
-    context 'new vote' do
-      it 'should create new vote and set type_like to 1' do
-        expect { answer1.like!(user) }.to change(answer1.likes, :count).by(1)
-        expect(answer1.likes.first.type_vote).to eq 1
-      end
-    end
+  describe 'Likes methods' do
+    let!(:object){ answer1 }
 
-    context 'already exist vote' do
-      it 'should set type_like to 1' do
-        answer1.dislike!(user)
-
-        expect { answer1.like!(user) }.to_not change(answer1.likes, :count)
-        expect(answer1.likes.first.type_vote).to eq 1
-      end
-    end
-  end
-
-  describe 'dislike! method' do
-    context 'new vote' do
-      it 'should create new vote and set type_like to -1' do
-        expect { answer1.dislike!(user) }.to change(answer1.likes, :count).by(1)
-        expect(answer1.likes.first.type_vote).to eq(-1)
-      end
-    end
-
-    context 'already exist vote' do
-      it 'should set type_like to -1' do
-        answer1.like!(user)
-
-        expect { answer1.dislike!(user) }.to_not change(answer1.likes, :count)
-        expect(answer1.likes.first.type_vote).to eq(-1)
-      end
-    end
-  end
-
-  describe 'like_cancel method' do
-    it 'should delete exist vote' do
-      answer1.like!(user)
-
-      expect { answer1.like_cancel(user) }.to change(answer1.likes, :count).by(-1)
-    end
-  end
-
-  describe 'like_rating method' do
-    let(:user2) { create(:user) }
-    let(:user3) { create(:user) }
-    let(:user4) { create(:user) }
-
-    it 'should return sum of likes' do
-      answer1.like!(user)
-      answer1.like!(user2)
-      answer1.like!(user3)
-      answer1.dislike!(user4)
-
-      expect(answer1.like_rating).to eq 2
-    end
+    it_behaves_like "Likable_models"
   end
 end
