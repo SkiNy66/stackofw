@@ -46,6 +46,9 @@ describe Ability do
     it { should be_able_to :destroy, create(:answer, user: user), user: user }
     it { should_not be_able_to :destroy, create(:answer, user: other_user), user: user }
 
+    it { should be_able_to :me, User, id: user.id }
+    it { should be_able_to :users, User }
+
     context 'attachments' do
       let(:attachment) { create(:attachment, attachmentable: question) }
       let(:other_attachment) { create(:attachment, attachmentable: other_question) }
