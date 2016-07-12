@@ -38,6 +38,8 @@ gem 'cancancan'
 gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'letter_opener'
+gem 'sidekiq'
+gem 'whenever'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
