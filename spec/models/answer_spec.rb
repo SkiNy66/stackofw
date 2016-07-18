@@ -45,4 +45,13 @@ RSpec.describe Answer, type: :model do
 
     it_behaves_like "Likable_models"
   end
+
+  describe '#notify_subscribers' do
+    let(:answer3) { build :answer, question: question, user: user }
+
+    it 'should send email to question subscribers when answer is created' do
+      expect(NewAnswerJob).to receive(:perform_later).with(answer3.question)
+      answer3.save!
+    end
+  end
 end

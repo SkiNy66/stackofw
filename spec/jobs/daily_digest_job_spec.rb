@@ -6,7 +6,7 @@ RSpec.describe DailyDigestJob, type: :job do
 
   it 'sends daily digest to each user' do
     users.each do |user|
-      expect(DailyDigestMailer).to receive(:digest).with(user).and_call_original
+      expect(DailyDigestMailer).to receive(:daily_digest).with(user).and_call_original
     end
     DailyDigestJob.perform_now
   end
