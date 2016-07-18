@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:likes).dependent(:destroy) }
     it { is_expected.to have_many(:comments).dependent(:destroy) }
     it { is_expected.to have_many(:authorizations).dependent(:destroy) }
+    it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
   end
 
   context 'Validates' do

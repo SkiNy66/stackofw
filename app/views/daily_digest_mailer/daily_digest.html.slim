@@ -1,0 +1,6 @@
+- if @questions.any?
+  ul
+  - @questions.each do |question|
+    li= link_to question.title, question
+- else
+  p No questions created yesterday.

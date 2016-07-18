@@ -12,10 +12,16 @@ class Answer < ActiveRecord::Base
 
   default_scope { order(best: :desc) }
 
+  after_create :notify_subscribers
+
   def set_best!
     transaction do
       question.answers.update_all(best: false)
       update!(best: true)
     end
+  end
+
+  def notify_subscribers
+    NewAnswerJob.perform_later(self.question)
   end
 end

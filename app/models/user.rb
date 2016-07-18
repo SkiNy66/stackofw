@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :answers
   has_many :likes, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
@@ -29,5 +30,9 @@ class User < ActiveRecord::Base
 
   def create_authorization(auth)
     self.authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  def subscribed_to?(question_id)
+    subscriptions.find_by(question_id: question_id)
   end
 end

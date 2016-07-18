@@ -1,4 +1,9 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   use_doorkeeper
   concern :likable do
@@ -19,6 +24,7 @@ Rails.application.routes.draw do
         patch 'mark_best'
       end
     end
+    resources :subscriptions, only: [:create, :destroy], shallow:  true
   end
 
   namespace :api do
