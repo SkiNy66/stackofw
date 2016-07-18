@@ -36,3 +36,10 @@ div id="question-#{ @question.id }"
       = f.label :body, 'comment body'
       = f.text_area :body, id: 'body-for-new-comment'
       = f.submit 'Create comment'
+
+  - if user_signed_in?
+    .subscription
+      -if current_user.subscribed_to?(@question)
+        = link_to 'Unsubscribe', subscription_path(@question.subscriptions.find_by(user_id: current_user.id)), method: :delete, remote: true, class: 'cancel_subscribe'
+      - else
+        = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, remote: true, class: 'create_subscribe'
