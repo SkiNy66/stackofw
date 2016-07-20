@@ -16,3 +16,5 @@
 config/database.yml
 db/schema.rb
 public/uploads
+config/*.sphinx.conf
+db/sphinx
