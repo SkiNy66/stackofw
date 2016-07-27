@@ -41,6 +41,9 @@ Rails.application.routes.draw do
   get "oauth/new_email_for_oauth", as: 'new_email_for_oauth'
   post "oauth/save_email_for_oauth", as: 'save_email_for_oauth'
 
+  get 'search', to: 'search#index'
+
+
   root to: "questions#index"
   resources :attachments, only: :destroy
 

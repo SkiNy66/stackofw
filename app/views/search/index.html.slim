@@ -1,0 +1,6 @@
+- if @search_results.empty?
+  h1 There is nothing to think
+- else
+  - @search_results.each do |record|
+    p -
+    = render "search/#{record.class.name.underscore}", record: record
