@@ -19,3 +19,4 @@ db/schema.rb
 public/uploads
 config/*.sphinx.conf
 db/sphinx
+config/thinking_sphinx.yml
