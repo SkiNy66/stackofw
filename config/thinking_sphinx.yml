@@ -1,4 +1,2 @@
-# test:
-#   mysql41: 9307
-production:
-  port: 9312
+test:
+  mysql41: 9307
