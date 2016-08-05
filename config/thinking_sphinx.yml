@@ -1,8 +1,8 @@
 test:
   mysql41: 9307
-production:
-  mysql41: 9312
-  pid_file: /home/deployer/stackofw//shared/tmp/searchd.pid
-  indices_location: /home/deployer/stackofw/shared/db/sphinx
-  configuration_file: /home/deployer/stackofw/shared/config/production.sphinx.conf
-  binlog_path: /home/deployer/stackofw/shared/binlog
+# production:
+#   mysql41: 9312
+#   pid_file: /home/deployer/stackofw//shared/tmp/searchd.pid
+#   indices_location: /home/deployer/stackofw/shared/db/sphinx
+#   configuration_file: /home/deployer/stackofw/shared/config/production.sphinx.conf
+#   binlog_path: /home/deployer/stackofw/shared/binlog
