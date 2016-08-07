@@ -1,7 +1,6 @@
 test:
   mysql41: 9307
 production:
-  mysql41: 9306
   pid_file: tmp/searchd.pid
   indices_location: db/sphinx
   configuration_file: production.sphinx.conf
