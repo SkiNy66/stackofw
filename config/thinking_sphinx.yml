@@ -1,4 +1,2 @@
 test:
   mysql41: 9307
-production:
-  mysql41: 9312
