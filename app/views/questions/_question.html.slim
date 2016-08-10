@@ -1,6 +1,7 @@
 div id="question-#{ @question.id }"
-  h1 = @question.title
-  p = @question.body
+  - cache [ 'question_form', @question ] do
+    h1 = @question.title
+    p = @question.body
   = render partial: 'likes/like', locals: { likable: @question}
 
   p Attachments:
@@ -28,7 +29,8 @@ div id="question-#{ @question.id }"
   .comments
     - @question.comments.each do |comment|
       - if comment.persisted?
-        p = comment.body
+        - cache [ 'question_form', @question ] do
+          p = comment.body
   - if can?(:create, Comment)
     .comments-errors
     p = link_to 'Add comment', '', class: 'new-comment-link'
