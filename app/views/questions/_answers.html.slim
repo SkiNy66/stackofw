@@ -1,36 +1,37 @@
 - @question.answers.each do |answer|
   div id="answer-#{ answer.id }"
     - if answer.persisted?
-      p = answer.body
-      = render partial: 'likes/like', locals: { likable: answer}
-      p Attachments:
-      ul
-        - answer.attachments.each do |a|
-          div id="attach-#{a.id}"
-            li= link_to a.file.identifier, a.file.url
-            - if can?(:destroy, @attachment)
-              = link_to "Delete file", attachment_path(a), method: :delete, remote: true, id: "delete_attachment_#{a.id}"
+      - cache answer do
+        p = answer.body
+        = render partial: 'likes/like', locals: { likable: answer}
+        p Attachments:
+        ul
+          - answer.attachments.each do |a|
+            div id="attach-#{a.id}"
+              li= link_to a.file.identifier, a.file.url
+              - if can?(:destroy, @attachment)
+                = link_to "Delete file", attachment_path(a), method: :delete, remote: true, id: "delete_attachment_#{a.id}"
 
-      - if answer.best
-        h1 'BEST ANSWER'
-      - if can?(:mark_best, Answer)
-        = link_to 'Mark as best answer', mark_best_answer_path(answer), method: :patch, remote: true
-      - if can?(:update, answer) && can?(:destroy, answer)
-        p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
-        p = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-        p = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-          = f.label :body, "Answer"
-          = f.text_area :body
-          = f.submit 'Save'
-    
-      .comments
-        - answer.comments.each do |comment|
-          - if comment.persisted?
-            p = comment.body
-      - if can?(:create, Comment)
-        .comments-errors
-        p = link_to 'Add comment', '', class: 'new-comment-link'
-        p = form_for [answer, Comment.new] , remote: true, html: { id: "new-comment"} do |f|
-          = f.label :body, 'comment body'
-          = f.text_area :body, id: 'body-for-new-comment'
-          = f.submit 'Create comment'      
+        - if answer.best
+          h1 'BEST ANSWER'
+        - if can?(:mark_best, Answer)
+          = link_to 'Mark as best answer', mark_best_answer_path(answer), method: :patch, remote: true
+        - if can?(:update, answer) && can?(:destroy, answer)
+          p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+          p = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+          p = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+            = f.label :body, "Answer"
+            = f.text_area :body
+            = f.submit 'Save'
+      
+        .comments
+          - answer.comments.each do |comment|
+            - if comment.persisted?
+              p = comment.body
+        - if can?(:create, Comment)
+          .comments-errors
+          p = link_to 'Add comment', '', class: 'new-comment-link'
+          p = form_for [answer, Comment.new] , remote: true, html: { id: "new-comment"} do |f|
+            = f.label :body, 'comment body'
+            = f.text_area :body, id: 'body-for-new-comment'
+            = f.submit 'Create comment'      

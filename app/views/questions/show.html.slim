@@ -1,26 +1,27 @@
-= link_to 'Sign in ', new_user_session_path
-= link_to 'Sign up ', new_user_registration_path
-= link_to 'Sign out ', destroy_user_session_path, method: :delete
-p = link_to 'All questions', questions_path
+- cache @question do
+  = link_to 'Sign in ', new_user_session_path
+  = link_to 'Sign up ', new_user_registration_path
+  = link_to 'Sign out ', destroy_user_session_path, method: :delete
+  p = link_to 'All questions', questions_path
 
-.question data={ question_id: "#{@question.id}"}
-  = render 'question'
+  .question data={ question_id: "#{@question.id}"}
+    = render 'question'
 
-h1 All answers for this questions
-.answers data={ question_id: "#{@question.id}"}
-  = render 'answers' 
+  h1 All answers for this questions
+  .answers data={ question_id: "#{@question.id}"}
+    = render 'answers' 
 
-- if can?(:create, Answer)
-  = form_for [ @question, @answer ], remote: true do |f|
-    = f.label :body, "You can answer"
-    .answer-errors
-    = f.text_area :body, id: 'body-for-new-answer'
-    p
-      = f.fields_for :attachments, @answer.attachments.build do |attachment|
-        = render 'attachments/attachment_fields', f: attachment
-      .links
-        = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'
-    = f.submit 'Create answer'
+  - if can?(:create, Answer)
+    = form_for [ @question, @answer ], remote: true do |f|
+      = f.label :body, "You can answer"
+      .answer-errors
+      = f.text_area :body, id: 'body-for-new-answer'
+      p
+        = f.fields_for :attachments, @answer.attachments.build do |attachment|
+          = render 'attachments/attachment_fields', f: attachment
+        .links
+          = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'
+      = f.submit 'Create answer'
 
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/comments"

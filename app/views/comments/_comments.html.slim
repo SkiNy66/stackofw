@@ -1,7 +1,8 @@
 .comments
   - commentable.comments.each do |comment|
     - if comment.persisted?
-      p = comment.body
+      - cache comment do
+        p = comment.body
 - if can?(:create, Comment)
   .comments-errors
   p = link_to 'Add comment', '', class: 'add-comment-link'
