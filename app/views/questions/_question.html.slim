@@ -29,7 +29,7 @@ div id="question-#{ @question.id }"
   .comments
     - @question.comments.each do |comment|
       - if comment.persisted?
-        - cache [ 'question_form', @question ] do
+        - cache [ 'question_form', comment ] do
           p = comment.body
   - if can?(:create, Comment)
     .comments-errors
