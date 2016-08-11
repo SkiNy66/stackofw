@@ -1,7 +1,8 @@
 - @question.answers.each do |answer|
   div id="answer-#{ answer.id }"
     - if answer.persisted?
-      p = answer.body
+      - cache answer do
+        p = answer.body
       = render partial: 'likes/like', locals: { likable: answer}
       p Attachments:
       ul
@@ -22,7 +23,7 @@
           = f.label :body, "Answer"
           = f.text_area :body
           = f.submit 'Save'
-    
+      
       .comments
         - answer.comments.each do |comment|
           - if comment.persisted?

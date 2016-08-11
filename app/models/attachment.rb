@@ -1,5 +1,5 @@
 class Attachment < ActiveRecord::Base
-  belongs_to :attachmentable, polymorphic: true
+  belongs_to :attachmentable, polymorphic: true, touch: true
 
   validates :file, presence: true
   validates :attachmentable_id, presence: true, on: :save

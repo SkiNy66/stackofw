@@ -3,11 +3,12 @@
 = link_to 'Sign out ', destroy_user_session_path, method: :delete
 - if can?(:create, Question)
   p = link_to 'Ask question', new_question_path
-h2 All questions here
-.questions
-  - @questions.each do |question|
-    div id="question-#{ question.id }"
-      h2 = link_to question.title, question
+- cache collection_cache_key_for :question do
+  h2 All questions here
+  .questions
+    - @questions.each do |question|
+      div id="question-#{ question.id }"
+        h2 = link_to question.title, question
 
 = subscribe_to "/questions"
   
